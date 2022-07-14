@@ -1,0 +1,20 @@
+{
+  "name": "carty",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "packageManager": "pnpm@7.1.7",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "react",
+    "nodejs"
+  ],
+  "author": "huynonstop",
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "^4.7.4"
+  }
+}
