@@ -1,0 +1,31 @@
+@baseurl = http://localhost:3000
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5ZGRkNzUyNC1jZTAxLTQzMGYtYjcyYy1mZDkwNzZmODBlODciLCJpYXQiOjE2NTg2NTcwNDIsImV4cCI6MTY1ODY2MDY0Mn0.9pNTWMHUpRyfkD1FN_aTmhp8BsUKgnew5a4vrZA-FNA
+
+### Signup email password
+POST  {{baseurl}}/api/auth/signup-email-password
+content-type: application/json
+
+{
+  "email": "huy1@gmail.com",
+  "name": "huynonstop",
+  "password": "123456aA!"
+}
+
+### Login email password
+POST  {{baseurl}}/api/auth/login-email-password
+content-type: application/json
+
+{
+  "email": "huy1@gmail.com",
+  "password": "123456aA!"
+}
+
+### Renew token
+POST  {{baseurl}}/api/auth/renew-token
+content-type: application/json
+Authorization: Bearer {{token}}
+
+### Get userInfo
+GET {{baseurl}}/api/user
+content-type: application/json
+Authorization: Bearer {{token}}
