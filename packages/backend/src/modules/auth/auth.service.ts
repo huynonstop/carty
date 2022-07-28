@@ -1,5 +1,5 @@
 import { comparePassword, hashPassword } from '@/lib/bcrypt';
-import { signToken } from '@/lib/jwt';
+import { signRefreshToken, signToken } from '@/lib/jwt';
 import prismaClient from '@/lib/prisma';
 import { CreateUserDTO } from '@/modules/user/user.dto';
 import { BadRequest } from '@/utils/customError';
@@ -39,13 +39,8 @@ const AuthService = {
       userId: user.id,
     };
     const [accessToken, createdTime, expiredTime] = signToken(tokenData);
-    return [accessToken, createdTime, expiredTime];
-  },
-  async renewAccessToken({ userId }: TokenData) {
-    const tokenData = {
-      userId,
-    };
-    const [accessToken, createdTime, expiredTime] = signToken(tokenData);
+    // check refreshToken, sign refreshToken
+
     return [accessToken, createdTime, expiredTime];
   },
 };

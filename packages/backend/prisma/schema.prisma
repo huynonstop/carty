@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
@@ -47,6 +48,14 @@ model Collection {
 
   items       Item[]
   sharedUsers CollectionUser[]
+  tags        Tag[]
+}
+
+model Tag {
+  id    Int    @id @default(autoincrement())
+  label String @unique
+
+  collections Collection[]
 }
 
 model Item {
@@ -62,23 +71,4 @@ model Item {
 
   collectionId String
   collection   Collection @relation(fields: [collectionId], references: [id])
-
-  collectionTags CollectionTag[]
-}
-
-model CollectionTag {
-  id String @id @default(uuid())
-
-  itemId String
-  item   Item   @relation(fields: [itemId], references: [id])
-
-  tagId String
-  tag   Tag    @relation(fields: [tagId], references: [id])
-}
-
-model Tag {
-  id    String @id @default(uuid())
-  label String @unique
-
-  collectionTags CollectionTag[]
 }

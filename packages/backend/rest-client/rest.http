@@ -1,5 +1,5 @@
 @baseurl = http://localhost:3000
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5ZGRkNzUyNC1jZTAxLTQzMGYtYjcyYy1mZDkwNzZmODBlODciLCJpYXQiOjE2NTg2NTcwNDIsImV4cCI6MTY1ODY2MDY0Mn0.9pNTWMHUpRyfkD1FN_aTmhp8BsUKgnew5a4vrZA-FNA
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5ZGRkNzUyNC1jZTAxLTQzMGYtYjcyYy1mZDkwNzZmODBlODciLCJpYXQiOjE2NTg3NDU5NDIsImV4cCI6MTY1ODc0OTU0Mn0.nZGXhvVBN1E6DJncCvlkN6R63j7tZj5g96y5BxYhJQ4
 
 ### Signup email password
 POST  {{baseurl}}/api/auth/signup-email-password
