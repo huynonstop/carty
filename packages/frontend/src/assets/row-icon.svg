@@ -1,0 +1,4 @@
+<svg className="svg" width="11" height="14" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+  <path d="M16 13H2v1h14v-1zm0-5H2v1h14V8zm0-5H2v1h14V3z" fill-rule="nonzero" fill-opacity="1" fill="#000"
+    stroke="none"></path>
+</svg>

@@ -43,6 +43,9 @@ model Collection {
   description String?
   isPublic    Boolean @default(false)
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   ownerId String
   owner   User   @relation(fields: [ownerId], references: [id])
 

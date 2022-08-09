@@ -7,8 +7,7 @@ content-type: application/json
 
 {
   "email": "huy1@gmail.com",
-  "name": "huynonstop",
-  "password": "123456aA!"
+  "password": "123456aA"
 }
 
 ### Login email password
@@ -17,7 +16,7 @@ content-type: application/json
 
 {
   "email": "huy1@gmail.com",
-  "password": "123456aA!"
+  "password": "123456aA"
 }
 
 ### Renew token

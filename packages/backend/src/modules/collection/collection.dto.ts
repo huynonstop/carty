@@ -3,5 +3,5 @@ export interface CreateCollectionDTO {
   ownerId: string;
   isPublic: boolean;
   description?: string;
-  tags?: string[];
+  tags: string[];
 }

@@ -1,8 +1,13 @@
+import { upperLowerDigit } from '@/utils/customValidator';
 import { RequestHandler } from 'express';
 import { BadRequest } from '@/utils/customError';
 import validator from 'validator';
 
-export const emailPasswordBodyValidator: RequestHandler = (req, res, next) => {
+export const emailPasswordBodyValidator: RequestHandler = (
+  req,
+  res,
+  next,
+) => {
   const { email, password } = req.body;
   if (!email) {
     return next(new BadRequest('MUST_HAVE_EMAIL'));
@@ -13,7 +18,7 @@ export const emailPasswordBodyValidator: RequestHandler = (req, res, next) => {
   if (!validator.isEmail(email)) {
     return next(new BadRequest('INVALID_EMAIL'));
   }
-  if (!validator.isStrongPassword(password)) {
+  if (!upperLowerDigit(password)) {
     return next(new BadRequest('INVALID_PASSWORD'));
   }
   next();

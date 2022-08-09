@@ -1,6 +1,10 @@
 import { Forbidden, BadRequest } from '@/utils/customError';
 import { ModuleController } from '@/common/type';
-import { validRenewTime, verifyRefreshToken, signToken } from '@/lib/jwt';
+import {
+  validRenewTime,
+  verifyRefreshToken,
+  signToken,
+} from '@/lib/jwt';
 import { asyncHandler } from '@/utils/asyncHandler';
 import AuthService from './auth.service';
 
@@ -19,13 +23,14 @@ const AuthController: ModuleController = {
   loginEmailPassword: asyncHandler(async (req, res, next) => {
     const { email, password } = req.body;
 
-    const [accessToken, createdTime, expiredTime] =
+    const [accessToken, createdTime, expiredTime, user] =
       await AuthService.loginEmailPassword({
         email,
         password,
       });
 
     return res.json({
+      userId: user.id,
       accessToken,
       createdTime,
       expiredTime,
@@ -39,7 +44,9 @@ const AuthController: ModuleController = {
       throw new Forbidden('INVALID_RENEW_TIME');
     }
 
-    const [accessToken, createdTime, expiredTime] = signToken({ userId });
+    const [accessToken, createdTime, expiredTime] = signToken({
+      userId,
+    });
     return res.json({
       accessToken,
       createdTime,
@@ -50,7 +57,9 @@ const AuthController: ModuleController = {
     const { refreshToken } = req.body;
     try {
       const { userId } = await verifyRefreshToken(refreshToken);
-      const [accessToken, createdTime, expiredTime] = signToken({ userId });
+      const [accessToken, createdTime, expiredTime] = signToken({
+        userId,
+      });
       return res.json({
         accessToken,
         createdTime,
