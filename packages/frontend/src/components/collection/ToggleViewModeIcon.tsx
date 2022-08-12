@@ -15,8 +15,8 @@ const iconMap = {
     >
       <path
         d="M16 13H2v1h14v-1zm0-5H2v1h14V8zm0-5H2v1h14V3z"
-        fill-rule="nonzero"
-        fill-opacity="1"
+        fillRule="nonzero"
+        fillOpacity="1"
         fill="inherit"
         stroke="none"
       ></path>
@@ -32,8 +32,8 @@ const iconMap = {
     >
       <path
         d="M1 1h3v3H1V1zM0 0h5v5H0V0zm1 8h3v3H1V8zM0 7h5v5H0V7zm11-6H8v3h3V1zM8 0H7v5h5V0H8zm0 8h3v3H8V8zM7 7h5v5H7V7z"
-        fill-rule="evenodd"
-        fill-opacity="1"
+        fillRule="evenodd"
+        fillOpacity="1"
         fill="inherit"
         stroke="none"
       ></path>

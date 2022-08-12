@@ -21,6 +21,14 @@ export const loginRequest = (loginData: {
   );
 };
 
+export const renewTokenRequest = (renewData: {
+  accessToken: string;
+}) => {
+  return jsonFetch(`${API_URL}/api/auth/renew-token`, renewData, {
+    method: 'GET',
+  });
+};
+
 export const signUpRequest = (signUpData: {
   email: string;
   password: string;

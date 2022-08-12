@@ -1,0 +1,8 @@
+@baseurl = http://localhost:3000
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4ZDJmMzA1Yi01ZTBiLTQ5NDUtOGIyYy0yYjFhNTZlYzE0YzAiLCJpYXQiOjE2NjAwNTM1ODksImV4cCI6MTY2MDA1NzE4OX0.gUTnol38HoRnl0OP4vKJe9LwUq6odX26CofvT2JUQHo
+
+
+### Get userInfo
+GET {{baseurl}}/api/user
+content-type: application/json
+Authorization: Bearer {{token}}

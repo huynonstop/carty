@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import { MouseEventHandler, PropsWithChildren } from 'react';
 import { flexXYCenter } from '@/utils/tailwind';
 import menuIconUrl from '@/assets/menu-icon.svg';
 import searchIconUrl from '@/assets/search-icon.svg';
@@ -22,13 +22,14 @@ const iconMap = {
   community: communityIconUrl,
   expandOpen: expandOpenIconUrl,
   expandClose: expandCloseIconUrl,
+  svg: '',
 };
 type IconType = keyof typeof iconMap;
 
 interface IconProps {
   type: IconType;
   className?: string;
-  onClick?: () => void;
+  onClick?: MouseEventHandler;
 }
 
 function Icon({
@@ -38,15 +39,23 @@ function Icon({
 }: PropsWithChildren<IconProps>) {
   return (
     <div
-      className={classNames([
-        flexXYCenter,
-        'w-8 h-8',
-        className || '',
-      ])}
+      className={classNames([flexXYCenter, className || 'w-8 h-8'])}
       {...props}
     >
       <img src={iconMap[type]} alt="logo" />
     </div>
+  );
+}
+export function IconSvg({
+  type = 'svg',
+  className,
+  ...props
+}: PropsWithChildren<IconProps>) {
+  return (
+    <div
+      className={classNames([flexXYCenter, className || 'w-8 h-8'])}
+      {...props}
+    />
   );
 }
 export default Icon;

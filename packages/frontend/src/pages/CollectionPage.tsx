@@ -1,4 +1,3 @@
-import Modal from '@/components/base/Modal';
 import CreateCollectionCard from '@/components/collection/CreateCollectionCard';
 import CreateCollectionModal from '@/components/collection/CreateCollectionModal';
 import ToggleViewModeIcon from '@/components/collection/ToggleViewModeIcon';
@@ -12,8 +11,7 @@ function CollectionPage() {
     openCreateCollectionModal,
   ] = useToggleModal(false);
   return (
-    <div className="flex w-full max-w-screen-xl mx-auto">
-      <Sidebar className="flex-auto index-sidebar-width index-sidebar-height border-r" />
+    <>
       <div className="flex flex-col flex-auto gap-4">
         <div className="flex sticky shadow-card p-6 gap-8">
           <CreateCollectionCard
@@ -37,7 +35,7 @@ function CollectionPage() {
         isShow={isShowCreateCollectionModal}
         onCloseModal={closeCreateCollectionModal}
       />
-    </div>
+    </>
   );
 }
 

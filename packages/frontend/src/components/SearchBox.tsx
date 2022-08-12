@@ -13,9 +13,8 @@ function SearchBox({ className }: SearchBoxProps) {
   ) => {
     setSearchText(e.target.value);
   };
-  const searchInputRef = useRef<HTMLInputElement>(null);
   return (
-    <div
+    <label
       className={classNames([
         className || '',
         'flex items-center',
@@ -24,13 +23,9 @@ function SearchBox({ className }: SearchBoxProps) {
         'hover:bg-slate-100',
         'hover:focus-within:bg-slate-200 focus-within:bg-slate-200 focus-within:border-backdrop',
       ])}
-      onClick={() => {
-        searchInputRef.current?.focus();
-      }}
     >
       <Icon type="search" />
       <input
-        ref={searchInputRef}
         className="flex-auto bg-inherit outline-none"
         value={searchText}
         onChange={onChangeHandler}
@@ -39,7 +34,7 @@ function SearchBox({ className }: SearchBoxProps) {
         name="search"
       />
       {searchText && <Icon type="x" className="hover:bg-slate-100" />}
-    </div>
+    </label>
   );
 }
 export default SearchBox;

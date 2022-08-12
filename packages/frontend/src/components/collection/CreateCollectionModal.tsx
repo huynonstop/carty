@@ -10,8 +10,8 @@ function CreateCollectionModal({
   onCloseModal,
 }: CreateCollectionModalProps) {
   return (
-    <Modal isShow={isShow} onCloseModal={onCloseModal}>
-      <CreateCollectionForm />
+    <Modal className="w-[32rem]" isShow={isShow}>
+      <CreateCollectionForm onReset={onCloseModal} />
     </Modal>
   );
 }

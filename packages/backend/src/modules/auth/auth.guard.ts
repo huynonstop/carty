@@ -22,6 +22,7 @@ export const validTokenGuard: RequestHandler = asyncHandler(
       res.locals.tokenInfo = tokenInfo;
       return next();
     } catch (err) {
+      console.log(err);
       if (err instanceof TokenExpiredError) {
         return next(new Unauthorized('TokenExpiredError'));
       }

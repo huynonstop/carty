@@ -16,7 +16,7 @@ authRoute.post(
   AuthController.loginEmailPassword,
 );
 
-authRoute.post(
+authRoute.get(
   '/renew-token',
   tokenGuard,
   expiredValidTokenGuard,

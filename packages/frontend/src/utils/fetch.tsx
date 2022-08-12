@@ -1,13 +1,17 @@
 export const jsonFetch = (
   url: string,
-  data: any,
+  { accessToken, ...data }: any,
   options: RequestInit,
 ) => {
-  return fetch(url, {
+  const request: RequestInit = {
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
     },
-    body: JSON.stringify(data),
     ...options,
-  });
+  };
+  if (options.method !== 'GET') {
+    request.body = JSON.stringify(data);
+  }
+  return fetch(url, request);
 };

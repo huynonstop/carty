@@ -1,19 +1,20 @@
 import classNames from '@/utils/classNames';
 import { useDelayShow } from '@/utils/hooks/useDelayShow';
-import { flexColXYCenter, flexXYCenter } from '@/utils/tailwind';
 import { PropsWithChildren } from 'react';
 import { createPortal } from 'react-dom';
 import Backdrop from './Backdrop';
 
 interface ModalProps {
   isShow: boolean;
-  onCloseModal: () => void;
+  onCloseModal?: () => void;
+  className?: string;
 }
 
 function Modal({
+  className = '',
   isShow,
   children,
-  onCloseModal,
+  onCloseModal = () => {},
 }: PropsWithChildren<ModalProps>) {
   const [isDelayShow] = useDelayShow(isShow, 300);
   const animationClass = isShow
@@ -28,6 +29,7 @@ function Modal({
       />
       <dialog
         className={classNames([
+          className,
           animationClass,
           'z-20 bg-white rounded',
           'fixed w-fit border m-auto transition-all',
@@ -35,7 +37,7 @@ function Modal({
         ])}
         open={isDelayShow}
       >
-        {children}
+        {isDelayShow && children}
       </dialog>
     </>,
     document.getElementById('root-modal')!,

@@ -1,5 +1,5 @@
 @baseurl = http://localhost:3000
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5ZGRkNzUyNC1jZTAxLTQzMGYtYjcyYy1mZDkwNzZmODBlODciLCJpYXQiOjE2NTg3NDU5NDIsImV4cCI6MTY1ODc0OTU0Mn0.nZGXhvVBN1E6DJncCvlkN6R63j7tZj5g96y5BxYhJQ4
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4ZDJmMzA1Yi01ZTBiLTQ5NDUtOGIyYy0yYjFhNTZlYzE0YzAiLCJpYXQiOjE2NjAwNTM1ODksImV4cCI6MTY2MDA1NzE4OX0.gUTnol38HoRnl0OP4vKJe9LwUq6odX26CofvT2JUQHo
 
 ### Signup email password
 POST  {{baseurl}}/api/auth/signup-email-password
@@ -20,11 +20,6 @@ content-type: application/json
 }
 
 ### Renew token
-POST  {{baseurl}}/api/auth/renew-token
-content-type: application/json
-Authorization: Bearer {{token}}
-
-### Get userInfo
-GET {{baseurl}}/api/user
+GET  {{baseurl}}/api/auth/renew-token
 content-type: application/json
 Authorization: Bearer {{token}}

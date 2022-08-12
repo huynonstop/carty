@@ -3,7 +3,7 @@ import { PropsWithChildren } from 'react';
 
 interface BackdropProps {
   isShow: boolean;
-  onClick: () => void;
+  onClick?: () => void;
   className?: string;
 }
 
@@ -17,7 +17,7 @@ const Backdrop = ({
       onClick={onClick}
       className={classNames([
         className || '',
-        'w-full h-full fixed left-0 top-0 bg-white bg-opacity-70',
+        'w-full h-full fixed left-0 top-0 bg-black bg-opacity-70',
       ])}
     />
   ) : null;

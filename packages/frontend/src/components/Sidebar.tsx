@@ -1,7 +1,7 @@
 import classNames from '@/utils/classNames';
 import { useToggleModal } from '@/utils/hooks/useModal';
+import { NavLink } from 'react-router-dom';
 import Icon from './base/Icon';
-import Modal from './base/Modal';
 import SectionDiv from './base/SectionDiv';
 import CreateCollectionModal from './collection/CreateCollectionModal';
 
@@ -26,30 +26,41 @@ function Sidebar({ className }: SidebarProps) {
       ])}
     >
       <div>
-        <div
-          className={classNames([
-            sidebarRowClass,
-            'hover:bg-slate-100',
-            'bg-slate-100',
-          ])}
+        <NavLink
+          to="/collections"
+          className={({ isActive }) =>
+            classNames([
+              sidebarRowClass,
+              'hover:bg-slate-100',
+              isActive ? 'bg-slate-100' : '',
+            ])
+          }
         >
           <Icon type="collection" />
           <span className="text-sm flex-auto">Collection</span>
-          <Icon
-            className="group-hover:visible rounded invisible hover:bg-slate-200"
-            type="plus"
-            onClick={openCreateCollectionModal}
-          />
-        </div>
-        <div
-          className={classNames([
-            sidebarRowClass,
-            'hover:bg-slate-100',
-          ])}
+          <div className="group-hover:visible rounded invisible hover:bg-slate-200">
+            <Icon
+              type="plus"
+              onClick={(e) => {
+                e.preventDefault();
+                openCreateCollectionModal();
+              }}
+            />
+          </div>
+        </NavLink>
+        <NavLink
+          to="/community"
+          className={({ isActive }) =>
+            classNames([
+              sidebarRowClass,
+              'hover:bg-slate-100',
+              isActive ? 'bg-slate-100' : '',
+            ])
+          }
         >
           <Icon type="community" />
           <span className="text-sm flex-auto">Community</span>
-        </div>
+        </NavLink>
         <SectionDiv className="m-2" />
       </div>
       <div>

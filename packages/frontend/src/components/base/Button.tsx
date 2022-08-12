@@ -1,10 +1,11 @@
 import classNames from '@/utils/classNames';
-import { PropsWithChildren } from 'react';
+import { MouseEventHandler, PropsWithChildren } from 'react';
 
 interface ButtonProps {
   className?: string;
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset';
+  onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
 function Button({

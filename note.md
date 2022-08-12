@@ -25,11 +25,13 @@ https://github.com/WebDevSimplified/react-folder-structure/tree/main/advanced/sr
 ## 4. Product Features
 
 - Có thể tạo danh sách
-- Có thể thêm/xóa/sửa các món hàng trong danh sách
-- Có thể chia sẻ danh sách riêng cho người dùng khác
-- Có thể chia sẻ danh sách cho cộng đồng
-- Gắn tag cho danh sách
 
-- Có thể /sửa/xóa danh sách
-- Có thể cập nhật danh sách thời gian thực (mọi người theo dõi danh sách có thể xem được cập nhật tức thời)
-- Có thể tìm kiếm, tìm theo tag, tham khảo và sao chép danh sách được chia sẻ của người dùng khác
+* Có thể thêm/xóa/sửa các món hàng trong danh sách
+* Có thể chia sẻ danh sách riêng cho người dùng khác
+* Có thể chia sẻ danh sách cho cộng đồng
+* Gắn tag cho danh sách
+* Có thể tìm kiếm, tìm theo tag
+
+* Có thể /sửa/xóa danh sách
+* Có thể cập nhật danh sách thời gian thực (mọi người theo dõi danh sách có thể xem được cập nhật tức thời)
+* tham khảo và sao chép danh sách được chia sẻ của người dùng khác

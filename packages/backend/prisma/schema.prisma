@@ -52,6 +52,9 @@ model Collection {
   items       Item[]
   sharedUsers CollectionUser[]
   tags        Tag[]
+
+  @@fulltext([name])
+  @@fulltext([description, name])
 }
 
 model Tag {
@@ -59,6 +62,8 @@ model Tag {
   label String @unique
 
   collections Collection[]
+
+  @@fulltext([label])
 }
 
 model Item {
