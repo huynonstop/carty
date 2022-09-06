@@ -3,14 +3,18 @@ import classNames from '@/utils/classNames';
 import { flexXYCenter } from '@/utils/tailwind';
 import { Link, NavLink } from 'react-router-dom';
 import Icon from './base/Icon';
-import SearchBox from './SearchBox';
+import { UserSearchBox } from './SearchBox';
 
 function NavBar({
   logoTo,
   useSidebar = true,
+  useSearchBox = true,
+  searchBoxPlaceHolder = '',
 }: {
   logoTo: string;
   useSidebar?: boolean;
+  searchBoxPlaceHolder?: string;
+  useSearchBox?: boolean;
 }) {
   return (
     <nav className="flex items-center justify-between h-12">
@@ -27,12 +31,17 @@ function NavBar({
           <Logo text="Carty" />
         </Link>
       </div>
-      <div className="flex basis-1/2 items-center h-full gap-2">
-        <SearchBox className="flex-1" />
-      </div>
+      {useSearchBox && (
+        <div className="flex basis-1/2 items-center h-full gap-2">
+          <UserSearchBox
+            className="flex-1"
+            placeHolder={searchBoxPlaceHolder}
+          />
+        </div>
+      )}
       <div className="flex items-center h-full gap-2">
         <NavLink
-          className={({ isActive }) =>
+          className={({ isActive }: { isActive: any }) =>
             classNames([
               flexXYCenter,
               'h-full w-12',

@@ -1,4 +1,5 @@
 import classNames from '@/utils/classNames';
+import { WithClassName } from '@/utils/hoc/WithClassName';
 import { NavLink } from 'react-router-dom';
 import Icon from './base/Icon';
 import SectionDiv from './base/SectionDiv';
@@ -8,15 +9,16 @@ interface SidebarProps {
   className?: string;
 }
 
-function Sidebar({ className }: SidebarProps) {
+function Sidebar({ className = '' }: SidebarProps) {
   return (
-    <div
-      className={classNames([className || '', 'flex flex-col py-2'])}
+    <WithClassName
+      as="aside"
+      className={[className, 'flex flex-col py-2']}
     >
       <div>
         <NavLink
           to="/collections"
-          className={({ isActive }) =>
+          className={({ isActive }: { isActive: boolean }) =>
             classNames([
               'flex items-center gap-1 p-1',
               'hover:bg-slate-100',
@@ -30,7 +32,7 @@ function Sidebar({ className }: SidebarProps) {
         </NavLink>
         <NavLink
           to="/community"
-          className={({ isActive }) =>
+          className={({ isActive }: { isActive: boolean }) =>
             classNames([
               'flex items-center gap-1 p-1',
               'hover:bg-slate-100',
@@ -45,7 +47,7 @@ function Sidebar({ className }: SidebarProps) {
         <SectionDiv className="m-2" />
       </div>
       <SelectedCollectionDetails className="flex flex-col p-1 gap-1" />
-    </div>
+    </WithClassName>
   );
 }
 export default Sidebar;

@@ -152,7 +152,7 @@ function CollectionDetailPage() {
         ]}
       >
         <CollectionDetailSidebar
-          className="flex flex-col basis-[25%] gap-4"
+          className="flex flex-col sm:basis-[25%] sm:max-w-[10rem] gap-4"
           collectionTags={tags}
           description={description}
           updatedAt={updatedAt}

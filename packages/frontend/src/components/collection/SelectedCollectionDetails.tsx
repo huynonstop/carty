@@ -60,7 +60,7 @@ function SelectedCollectionDetails({
         />
         <span
           className={classNames([
-            'text-sm flex-auto font-bold',
+            'text-sm flex-auto font-bold max-w-[80%]',
             textDot,
           ])}
         >
@@ -78,7 +78,7 @@ function SelectedCollectionDetails({
               );
             })}
           </div>
-          <p>{collection.description}</p>
+          <p className="break-all">{collection.description}</p>
           <div>{items.length} items</div>
           <div>Price: {`${buyPrice}$/${totalPrice}$`}</div>
           <div>Status: {isPublic ? 'Public' : 'Private'}</div>

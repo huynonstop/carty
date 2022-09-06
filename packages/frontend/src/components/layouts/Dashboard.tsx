@@ -8,18 +8,27 @@ import { contentContainer } from '@/utils/tailwind';
 function Dashboard({
   children,
   useSidebar = true,
+  useSearchBox = true,
+  searchBoxPlaceHolder = '',
   logoTo,
   widthClassName = '',
 }: PropsWithChildren<{
   useSidebar?: boolean;
+  useSearchBox?: boolean;
   logoTo: string;
   widthClassName?: string;
+  searchBoxPlaceHolder?: string;
 }>) {
   return (
     <>
       <header className="w-full border-b shadow-lg">
         <div className={contentContainer}>
-          <NavBar useSidebar={useSidebar} logoTo={logoTo} />
+          <NavBar
+            searchBoxPlaceHolder={searchBoxPlaceHolder}
+            useSidebar={useSidebar}
+            logoTo={logoTo}
+            useSearchBox={useSearchBox}
+          />
         </div>
       </header>
       <main

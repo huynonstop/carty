@@ -33,7 +33,7 @@ function MoreCollectionSidebar({
     );
   }, []);
   return (
-    <div className={className}>
+    <aside className={className}>
       {isOwner && (
         <Button
           onClick={onDelete}
@@ -64,7 +64,7 @@ function MoreCollectionSidebar({
           </div>
         </div>
       )}
-    </div>
+    </aside>
   );
 }
 export default MoreCollectionSidebar;

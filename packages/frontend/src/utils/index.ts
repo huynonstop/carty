@@ -1,4 +1,7 @@
-export const debounced = (cb: any, timeout: number) => {
+export const debounced = (
+  cb: (...args: any[]) => any | Promise<any>,
+  timeout: number,
+) => {
   let timer: number | undefined = undefined;
   return (...args: any[]) => {
     clearTimeout(timer);

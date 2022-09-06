@@ -19,7 +19,6 @@ import {
 import { itemRoute } from './item/item.route';
 import { routeParamsMiddleware } from '@/common/middleware';
 import ShareController from '../share/share.controller';
-import CollectionService from './collection.service';
 
 export const collectionRoute = Router();
 collectionRoute

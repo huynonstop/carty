@@ -69,27 +69,10 @@ export const searchCollectionByKeyWithoutPublicFilter = (
   return filter;
 };
 
-export const searchCollectionByKeyFilter = (
-  userId: string,
-  key?: string,
-) => {
+export const searchCollectionByKeyFilter = (key?: string) => {
   const filter: any[] = [
     {
-      OR: [
-        {
-          ownerId: userId,
-        },
-        {
-          sharedUsers: {
-            some: {
-              userId: userId,
-            },
-          },
-        },
-        {
-          isPublic: true,
-        },
-      ],
+      isPublic: true,
     },
   ];
 

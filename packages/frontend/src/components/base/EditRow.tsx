@@ -66,11 +66,11 @@ function EditRowState({
       )}
     </form>
   ) : (
-    <div className="flex group gap-1 items-center">
-      <div className={valueClassName}>{value}</div>
+    <div className="group gap-1 ">
+      <span className={valueClassName}>{value}</span>
       {canEdit && (
         <Icon
-          className="hidden group-hover:flex cursor-pointer"
+          className="hidden group-hover:inline-flex cursor-pointer"
           type="edit"
           onClick={() => {
             setIsEditing(true);

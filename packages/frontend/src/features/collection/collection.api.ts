@@ -99,9 +99,22 @@ export const updateCollection: APIRequest<{
 export const searchCollections: APIRequest<{
   accessToken: string;
   key: string;
-}> = ({ accessToken, key }) => {
+  cursor?: string;
+  take?: number;
+  skip?: number;
+}> = ({ accessToken, key, take, cursor, skip }) => {
+  let query = `?key=${key}`;
+  if (take !== undefined) {
+    query += `&take=${take.toString()}`;
+  }
+  if (cursor) {
+    query += `&cursor=${cursor}`;
+  }
+  if (skip !== undefined) {
+    query += `&skip=${skip.toString()}`;
+  }
   return jsonFetch(
-    `${API_URL}/api/collection/search?key=${key}`,
+    `${API_URL}/api/collection/search${query}`,
     {
       accessToken,
     },

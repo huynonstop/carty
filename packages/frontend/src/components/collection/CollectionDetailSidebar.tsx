@@ -33,7 +33,7 @@ function CollectionDetailSidebar({
   const buyPrice = buyPriceReducer(items);
   const lastUpdateStatus = lastUpdateBefore(updatedAt);
   return (
-    <div className={className}>
+    <aside className={className}>
       <EditGroupState
         canEdit={isOwner}
         className="flex flex-col gap-1"
@@ -83,7 +83,7 @@ function CollectionDetailSidebar({
           );
         }}
       >
-        <p className="text-sm">{description}</p>
+        <p className="text-sm break-all">{description}</p>
       </EditGroupState>
 
       <div className="flex flex-col gap-1">
@@ -105,7 +105,7 @@ function CollectionDetailSidebar({
           </div>
         </div>
       </div>
-    </div>
+    </aside>
   );
 }
 export default CollectionDetailSidebar;

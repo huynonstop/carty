@@ -10,7 +10,11 @@ import CollectionPage from './pages/CollectionPage';
 import HomePage from './pages/HomePage';
 import NotFoundPage from './pages/NotFoundPage';
 import UserPage from './pages/UserPage';
-import { contentContainer } from './utils/tailwind';
+import {
+  contentContainer,
+  contentContainerLg,
+} from './utils/tailwind';
+import CommunityPage from './pages/CommunityPage';
 const AppRoutes = () => {
   return (
     <Routes>
@@ -26,6 +30,7 @@ const AppRoutes = () => {
           element={
             <Dashboard
               logoTo="/collections"
+              searchBoxPlaceHolder="Find your collections"
               widthClassName={contentContainer}
             />
           }
@@ -38,7 +43,11 @@ const AppRoutes = () => {
         </Route>
         <Route
           element={
-            <Dashboard useSidebar={false} logoTo="/collections" />
+            <Dashboard
+              logoTo="/collections"
+              searchBoxPlaceHolder="Find your collections"
+              useSidebar={false}
+            />
           }
         >
           <Route path="/collections">
@@ -48,6 +57,20 @@ const AppRoutes = () => {
             />
           </Route>
           <Route path="/about" element={<AboutPage />} />
+        </Route>
+        <Route
+          element={
+            <Dashboard
+              useSearchBox={false}
+              useSidebar={false}
+              logoTo="/collections"
+              widthClassName={contentContainerLg}
+            />
+          }
+        >
+          <Route path="/community">
+            <Route index element={<CommunityPage />} />
+          </Route>
         </Route>
       </Route>
     </Routes>

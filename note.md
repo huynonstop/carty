@@ -20,18 +20,13 @@ https://www.youtube.com/watch?v=mjZIv4ey0ps&ab_channel=TheNetNinja
 https://www.youtube.com/watch?v=h3bTwCqX4ns
 https://github.com/WebDevSimplified/react-folder-structure/tree/main/advanced/src/features/projects
 
-# Todo
-
 ## 4. Product Features
 
-- Có thể tạo danh sách
-- Có thể thêm/xóa/sửa các món hàng trong danh sách
+- Create/update/delete collections
+- Create/update/delete items
+- Invited another user to collections
+- Public collections to community, Clone public collection
+- Tagging collections
+- Search collections (full text search)
 
-* Có thể chia sẻ danh sách riêng cho người dùng khác
-* Có thể chia sẻ danh sách cho cộng đồng
-* Gắn tag cho danh sách
-* Có thể tìm kiếm, tìm theo tag
-
-* Có thể /sửa/xóa danh sách
-* Có thể cập nhật danh sách thời gian thực (mọi người theo dõi danh sách có thể xem được cập nhật tức thời)
-* tham khảo và sao chép danh sách được chia sẻ của người dùng khác
+* Realtime update

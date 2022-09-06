@@ -50,16 +50,30 @@ const CollectionService = {
   },
   async searchCollection({
     key,
-    userId,
+    cursor,
+    take,
+    skip,
   }: {
     key?: string;
-    userId: string;
+    cursor?: string;
+    take?: number;
+    skip?: number;
   }) {
     return prismaClient.collection.findMany({
+      take,
+      skip,
+      cursor: cursor
+        ? {
+            id: cursor,
+          }
+        : undefined,
       where: {
-        AND: searchCollectionByKeyFilter(userId, key),
+        AND: searchCollectionByKeyFilter(key),
       },
       include: collectionInclude,
+      orderBy: {
+        id: 'desc',
+      },
     });
   },
   async searchUserCollection({

@@ -84,11 +84,22 @@ const CollectionController: ModuleController<CollectionControllerHandler> =
       });
     }),
     searchCollections: asyncHandler(async (req, res) => {
-      const { key }: { key?: string } = req.query;
-      const { userId } = res.locals.tokenInfo as { userId: string };
+      const {
+        key,
+        cursor,
+        take,
+        skip,
+      }: {
+        key?: string;
+        cursor?: string;
+        take?: string;
+        skip?: string;
+      } = req.query;
       const collections = await CollectionService.searchCollection({
         key,
-        userId,
+        take: take ? parseInt(take) : 10,
+        skip: skip ? parseInt(skip) : 1,
+        cursor,
       });
       return res.json({
         collections,

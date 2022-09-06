@@ -58,7 +58,7 @@ function UserPage() {
   };
   return (
     <>
-      <div className="flex flex-col flex-auto gap-4 border-l">
+      <div className="flex flex-col flex-auto gap-4 border-l index-max-w-screen-xl-sidebar-width ">
         <div className="flex flex-col shadow-card p-6 gap-4">
           <h3>
             <strong>User profile</strong>
