@@ -19,5 +19,5 @@
     "lib": ["esnext"]
   },
   "exclude": ["node_modules", "dist"],
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts", "../frontend/src/utils/time.ts"]
 }

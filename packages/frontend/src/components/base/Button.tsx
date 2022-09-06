@@ -1,4 +1,5 @@
 import classNames from '@/utils/classNames';
+import { withClassName } from '@/utils/hoc/WithClassName';
 import { MouseEventHandler, PropsWithChildren } from 'react';
 
 interface ButtonProps {

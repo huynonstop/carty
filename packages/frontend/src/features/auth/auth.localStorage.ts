@@ -1,14 +1,14 @@
-import { AuthState, createInitAuthState } from './auth.reducer';
+import { AuthStateType, createInitAuthState } from './auth.reducer';
 
-export const AUTH_LOCAL_STORAGE = 'auth';
+const AUTH_LOCAL_STORAGE = 'auth';
 
-export const setAuthDataLocalStorage = (authData: AuthState) => {
+export const setAuthDataLocalStorage = (authData: AuthStateType) => {
   localStorage.setItem(AUTH_LOCAL_STORAGE, JSON.stringify(authData));
 };
 
-export const getAuthDataLocalStorage = (): AuthState => {
+export const getAuthDataLocalStorage = (): AuthStateType => {
   try {
-    const { userId, accessToken }: AuthState = JSON.parse(
+    const { userId, accessToken }: AuthStateType = JSON.parse(
       localStorage.getItem(AUTH_LOCAL_STORAGE)!,
     );
     return { userId, accessToken };

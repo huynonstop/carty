@@ -1,0 +1,70 @@
+[
+  {
+    "_id": "89a68598-02f2-457f-b9cd-1d591b4e887d",
+    "colName": "Carty",
+    "created": "2022-08-15T16:27:59.587Z",
+    "sortNum": 10000,
+    "folders": [
+      {
+        "_id": "4855f34b-e4bf-4b9d-8dfd-fba20f80cb4b",
+        "name": "Auth",
+        "containerId": "",
+        "created": "2022-08-15T17:12:51.521Z",
+        "sortNum": 10000,
+        "settings": {
+          "headers": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "auth": {
+            "type": "bearer",
+            "bearer": "{{accessToken}}"
+          },
+          "tests": []
+        }
+      },
+      {
+        "_id": "109e3bfe-8578-4b6b-99b8-65dc5db3970c",
+        "name": "Collection",
+        "containerId": "",
+        "created": "2022-08-15T17:39:06.185Z",
+        "sortNum": 30000,
+        "settings": {
+          "headers": [
+            {
+              "name": "Accept-Language",
+              "value": "application/json"
+            }
+          ],
+          "tests": []
+        }
+      },
+      {
+        "_id": "99df5b36-3bdc-4de5-b2c2-39a3ace9d829",
+        "name": "User",
+        "containerId": "",
+        "created": "2022-08-15T17:49:05.208Z",
+        "sortNum": 40000
+      }
+    ],
+    "settings": {
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": "{{accessToken}}"
+      },
+      "tests": [],
+      "options": {
+        "baseUrl": "{{baseurl}}/api"
+      },
+      "envId": "720b90d4-d565-4abe-8e39-c9cb84fcee8d"
+    }
+  }
+]

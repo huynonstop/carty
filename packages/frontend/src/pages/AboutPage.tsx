@@ -1,12 +1,18 @@
 import Button from '@/components/base/Button';
 import classNames from '@/utils/classNames';
-import { flexXYCenter } from '@/utils/tailwind';
+import { contentContainer, flexXYCenter } from '@/utils/tailwind';
 import { Link } from 'react-router-dom';
 
 function AboutPage() {
   return (
     <>
-      <div className={classNames(['flex flex-col', 'gap-8 py-8'])}>
+      <div
+        className={classNames([
+          'flex flex-col',
+          'gap-8 py-8',
+          contentContainer,
+        ])}
+      >
         <h3>
           Carty is an application that make your shopping life easier
           and better.

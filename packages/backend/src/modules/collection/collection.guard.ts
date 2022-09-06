@@ -8,7 +8,7 @@ export const collectionOwnerGuard: RequestHandler = asyncHandler(
     const { collectionId } = req.params;
     const { userId } = res.locals.tokenInfo;
     try {
-      CollectionService.isOwner({ collectionId, userId });
+      await CollectionService.checkOwner({ collectionId, userId });
       return next();
     } catch (err) {
       return next(new Forbidden('NOT_OWNER'));
@@ -21,9 +21,10 @@ export const collectionUserGuard: RequestHandler = asyncHandler(
     const { collectionId } = req.params;
     const { userId } = res.locals.tokenInfo;
     try {
-      CollectionService.isUser({ collectionId, userId });
+      await CollectionService.checkUser({ collectionId, userId });
       return next();
     } catch (err) {
+      console.log(err);
       return next(new Forbidden('NOT_USER_COLLECTION'));
     }
   },
@@ -36,10 +37,15 @@ export const collectionDetailGuard: RequestHandler = asyncHandler(
       const collection = await CollectionService.getCollectionById({
         collectionId,
       });
-      if (!collection.isPublic) {
-        const { userId } = res.locals.tokenInfo;
-        CollectionService.isUser({ collectionId, userId });
+      const { userId } = res.locals.tokenInfo;
+      const isUser = await CollectionService.isUser({
+        collectionId,
+        userId,
+      });
+      if (!collection.isPublic && !isUser) {
+        throw new Forbidden('NOT_USER_AND_PUBLIC');
       }
+      res.locals.isUser = !!isUser;
       return next();
     } catch (err) {
       return next(new Forbidden('COLLECTION_INFO'));

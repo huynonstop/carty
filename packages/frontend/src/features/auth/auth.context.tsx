@@ -1,11 +1,10 @@
+import { MyContextWithDispatchType } from '@/utils/types';
 import {
   createContext,
-  Dispatch,
   PropsWithChildren,
   useContext,
   useEffect,
   useReducer,
-  useRef,
   useState,
 } from 'react';
 import { LoginResponseData, renewTokenRequest } from './auth.api';
@@ -18,13 +17,13 @@ import {
   AuthAction,
   AuthActionType,
   authReducer,
-  AuthState,
+  AuthStateType,
 } from './auth.reducer';
 
-type AuthContextType = {
-  authState: AuthState;
-  authDispatch: Dispatch<AuthAction>;
-};
+type AuthContextType = MyContextWithDispatchType<
+  AuthStateType,
+  AuthAction
+>;
 
 export const AuthContext = createContext<AuthContextType>({
   authState: getAuthDataLocalStorage(),
@@ -37,22 +36,19 @@ export const AuthProvider = ({ children }: PropsWithChildren<{}>) => {
     null,
     getAuthDataLocalStorage,
   );
-  const isInit = useRef(true);
-  useEffect(() => {
-    if (isInit.current) {
-      console.log('Init auth state', authState);
-      isInit.current = false;
-    } else {
-      console.log('Updated auth state', authState);
-    }
-  });
   return (
-    <AuthContext.Provider value={{ authState, authDispatch }}>
+    <AuthContext.Provider
+      value={{
+        authState,
+        authDispatch,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
 };
 let authTimeout: number | undefined;
+
 export const useAuthContext = () => {
   const { authState, authDispatch } = useContext(AuthContext);
   const dispatchLogout = () => {
@@ -86,7 +82,7 @@ export const useAuthContext = () => {
     });
 
     if (authTimeout) {
-      console.log('clear timeout', authTimeout);
+      console.log('clear auth timeout', authTimeout);
       clearTimeout(authTimeout);
     }
 
@@ -94,6 +90,7 @@ export const useAuthContext = () => {
     authTimeout = setTimeout(() => {
       dispatchLogout();
     }, timeoutTime);
+
     console.log(
       new Date(createdTime).toISOString(),
       'logout after',
@@ -121,9 +118,11 @@ export const usePersistAuth = () => {
   const { authState, isAuth, dispatchLogin, dispatchLogout } =
     useAuthContext();
   const [isPersistingAuth, setPersistingAuth] = useState(true);
+
   useEffect(() => {
-    const tryPersistAuth = async () => {
+    const tryPersist = async () => {
       try {
+        setPersistingAuth(true);
         if (!isAuth()) {
           throw new Error('CANNOT_PERSIST_AUTH');
         }
@@ -131,19 +130,19 @@ export const usePersistAuth = () => {
         const res = await renewTokenRequest({ accessToken });
         const data = await res.json();
         if (res.status !== 200) {
-          console.log(data);
           throw new Error('err status');
         }
+        console.log('dispatch');
         dispatchLogin({ userId, ...data });
       } catch (err) {
         console.log(err);
         dispatchLogout();
-        return;
       } finally {
         setPersistingAuth(false);
       }
     };
-    tryPersistAuth();
+    tryPersist();
   }, []);
+
   return isPersistingAuth;
 };

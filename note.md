@@ -25,8 +25,8 @@ https://github.com/WebDevSimplified/react-folder-structure/tree/main/advanced/sr
 ## 4. Product Features
 
 - Có thể tạo danh sách
+- Có thể thêm/xóa/sửa các món hàng trong danh sách
 
-* Có thể thêm/xóa/sửa các món hàng trong danh sách
 * Có thể chia sẻ danh sách riêng cho người dùng khác
 * Có thể chia sẻ danh sách cho cộng đồng
 * Gắn tag cho danh sách

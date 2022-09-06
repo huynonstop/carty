@@ -1,16 +1,27 @@
 import classNames from '@/utils/classNames';
+import { WithClassName } from '@/utils/hoc/WithClassName';
 import { flexXYCenter } from '@/utils/tailwind';
 
-function Spinner() {
+function Spinner({
+  className = '',
+  spinnerClassName = '',
+}: {
+  className?: string;
+  spinnerClassName?: string;
+}) {
   return (
-    <div
-      className={classNames([
+    <WithClassName
+      className={[
+        className,
         flexXYCenter,
         'rounded transition-opacity w-full h-full',
-      ])}
+      ]}
     >
-      <i className="index-spinner" />
-    </div>
+      <WithClassName
+        as="i"
+        className={['index-spinner', spinnerClassName]}
+      />
+    </WithClassName>
   );
 }
 

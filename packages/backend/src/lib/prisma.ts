@@ -24,4 +24,7 @@ export const prismaErrorFilter: ErrorRequestHandler = (
   }
   next(err);
 };
+export const orderByCreatedAt = {
+  createdAt: 'desc',
+};
 export default prismaClient;

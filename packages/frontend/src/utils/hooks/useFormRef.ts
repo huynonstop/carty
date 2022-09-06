@@ -1,25 +1,27 @@
-import { useRef } from 'react';
+import { useRef, MutableRefObject } from 'react';
 
-const useFormRef = () => {
-  const formRef = useRef<
-    Record<string, HTMLInputElement | { value: any }>
-  >({});
+const useFormRef = (): [
+  MutableRefObject<Record<string, HTMLInputElement>>,
+  {
+    createInputRef: (field: string) => (value: any) => void;
+    getFieldValue: (field: string) => string | boolean;
+    getFormData: () => Record<string, string | boolean>;
+  },
+] => {
+  const formRef = useRef<Record<string, HTMLInputElement>>({});
   const createInputRef =
     (field: string) => (el: HTMLInputElement) => {
       formRef.current[field] = el;
     };
-  const createField = (field: string) => (defaultValue: any) => {
-    formRef.current[field] = { value: defaultValue };
-  };
-  const setFieldValue = (field: string) => (value: any) => {
-    formRef.current[field].value = value;
-  };
   const getFieldValue = (field: string) => {
+    if (formRef.current[field].type === 'checkbox') {
+      return formRef.current[field].checked;
+    }
     return formRef.current[field].value;
   };
   const getFormData = () => {
     return Object.keys(formRef.current).reduce<
-      Record<string, string>
+      Record<string, string | boolean>
     >((pre, field) => {
       pre[field] = getFieldValue(field);
       return pre;
@@ -29,8 +31,6 @@ const useFormRef = () => {
     formRef,
     {
       createInputRef,
-      createField,
-      setFieldValue,
       getFieldValue,
       getFormData,
     },

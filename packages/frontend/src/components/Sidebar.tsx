@@ -1,60 +1,41 @@
 import classNames from '@/utils/classNames';
-import { useToggleModal } from '@/utils/hooks/useModal';
 import { NavLink } from 'react-router-dom';
 import Icon from './base/Icon';
 import SectionDiv from './base/SectionDiv';
-import CreateCollectionModal from './collection/CreateCollectionModal';
+import SelectedCollectionDetails from './collection/SelectedCollectionDetails';
 
 interface SidebarProps {
   className?: string;
 }
 
-const sidebarRowClass =
-  'group flex items-center gap-1 px-2 select-none';
-
 function Sidebar({ className }: SidebarProps) {
-  const [
-    isShowCreateCollectionModal,
-    closeCreateCollectionModal,
-    openCreateCollectionModal,
-  ] = useToggleModal(false);
   return (
     <div
-      className={classNames([
-        className || '',
-        'flex flex-col py-2 justify-between',
-      ])}
+      className={classNames([className || '', 'flex flex-col py-2'])}
     >
       <div>
         <NavLink
           to="/collections"
           className={({ isActive }) =>
             classNames([
-              sidebarRowClass,
+              'flex items-center gap-1 p-1',
               'hover:bg-slate-100',
               isActive ? 'bg-slate-100' : '',
+              'group select-none',
             ])
           }
         >
           <Icon type="collection" />
           <span className="text-sm flex-auto">Collection</span>
-          <div className="group-hover:visible rounded invisible hover:bg-slate-200">
-            <Icon
-              type="plus"
-              onClick={(e) => {
-                e.preventDefault();
-                openCreateCollectionModal();
-              }}
-            />
-          </div>
         </NavLink>
         <NavLink
           to="/community"
           className={({ isActive }) =>
             classNames([
-              sidebarRowClass,
+              'flex items-center gap-1 p-1',
               'hover:bg-slate-100',
               isActive ? 'bg-slate-100' : '',
+              'select-none',
             ])
           }
         >
@@ -63,22 +44,7 @@ function Sidebar({ className }: SidebarProps) {
         </NavLink>
         <SectionDiv className="m-2" />
       </div>
-      <div>
-        <SectionDiv className="m-2" />
-        <div className={sidebarRowClass}>
-          <Icon
-            type="expandClose"
-            className="rounded hover:bg-slate-200"
-          />
-          <span className="text-xs flex-auto font-bold">
-            Selected collection details
-          </span>
-        </div>
-      </div>
-      <CreateCollectionModal
-        isShow={isShowCreateCollectionModal}
-        onCloseModal={closeCreateCollectionModal}
-      />
+      <SelectedCollectionDetails className="flex flex-col p-1 gap-1" />
     </div>
   );
 }

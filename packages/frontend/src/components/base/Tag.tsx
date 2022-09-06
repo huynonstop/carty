@@ -10,7 +10,7 @@ function Tag({ className, ...props }: PropsWithChildren<TagProps>) {
     <span
       className={classNames([
         'inline-flex items-center',
-        className || '',
+        className || 'rounded bg-slate-200 px-2',
       ])}
       onClick={(e) => e.stopPropagation()}
       {...props}

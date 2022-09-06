@@ -1,8 +1,13 @@
+import SectionDiv from '@/components/base/SectionDiv';
+import CloneCollectionCard from '@/components/collection/CloneCollectionCard';
+import CollectionsView from '@/components/collection/CollectionsView';
 import CreateCollectionCard from '@/components/collection/CreateCollectionCard';
 import CreateCollectionModal from '@/components/collection/CreateCollectionModal';
-import ToggleViewModeIcon from '@/components/collection/ToggleViewModeIcon';
-import Sidebar from '@/components/Sidebar';
+import { useAuthContext } from '@/features/auth/auth.context';
+import { getCollections } from '@/features/collection/collection.api';
+import { useFetch } from '@/utils/hooks/useFetch';
 import { useToggleModal } from '@/utils/hooks/useModal';
+import { useEffect } from 'react';
 
 function CollectionPage() {
   const [
@@ -10,28 +15,49 @@ function CollectionPage() {
     closeCreateCollectionModal,
     openCreateCollectionModal,
   ] = useToggleModal(false);
+  const { authState, isAuth } = useAuthContext();
+  const [collections, wrapper, { loading, setData }] = useFetch<
+    any[]
+  >([]);
+  const fetchCollections = () => {
+    return wrapper(
+      getCollections,
+      {
+        accessToken: authState.accessToken,
+      },
+      (cs) => cs.collections,
+    );
+  };
+  useEffect(() => {
+    if (isAuth()) {
+      fetchCollections();
+    }
+  }, [authState]);
+
+  const onCreate = (newCollection: any) => {
+    setData([newCollection, ...collections]);
+  };
   return (
     <>
-      <div className="flex flex-col flex-auto gap-4">
-        <div className="flex sticky shadow-card p-6 gap-8">
-          <CreateCollectionCard
-            openCreateModal={openCreateCollectionModal}
-          />
-          <div>Use a template</div>
-        </div>
-        <div className="flex justify-between items-center px-6">
-          <h3 className="text-sm font-bold">Your collections</h3>
-          <div className="flex items-center gap-2 h-8">
-            <span className="text-xs font-bold">View mode:</span>
-            <ToggleViewModeIcon type="row" isSelected={true} />
-            <ToggleViewModeIcon type="card" />
+      <div className="flex flex-col flex-auto index-max-w-screen-xl-sidebar-width gap-4 border-l">
+        <div>
+          <div className="flex sticky top-0 p-6 gap-8 bg-white">
+            <CreateCollectionCard
+              className="basis-[25%] flex-wrap"
+              openCreateModal={openCreateCollectionModal}
+            />
+            <CloneCollectionCard className="basis-[25%] flex-wrap" />
           </div>
+          <SectionDiv className="mx-2" />
         </div>
-        <div className="flex-auto px-6">
-          Collections (view by card or row)
-        </div>
+        <CollectionsView
+          collections={collections}
+          isLoadingCollections={loading}
+          fetchCollections={fetchCollections}
+        />
       </div>
       <CreateCollectionModal
+        onCreate={onCreate}
         isShow={isShowCreateCollectionModal}
         onCloseModal={closeCreateCollectionModal}
       />

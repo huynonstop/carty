@@ -1,4 +1,5 @@
 @import './keyframes.css';
+@import './utils/tailwind.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -16,12 +17,17 @@ button:disabled {
 }
 
 .index-sidebar-width {
-  max-width: min(250px, 25%);
-  min-width: 150px;
+  max-width: min(250px, 20%);
+  min-width: min(250px, 20%);
+}
+
+.index-sidebar-width + .index-max-w-screen-xl-sidebar-width {
+  max-width: calc(1280px - min(250px, 20%));
 }
 
 .index-sidebar-height {
   min-height: calc(100vh - 2.5rem - 1rem);
+  max-height: calc(100vh - 2.5rem - 1rem);
 }
 
 .index-spinner {
@@ -42,6 +48,16 @@ button:disabled {
   background-color: white;
 }
 
+.index-spinner.reverse::before,
+.index-spinner.reverse::after {
+  background-color: black;
+}
+
+.primary .index-spinner::before,
+.primary .index-spinner::after {
+  @apply bg-primary;
+}
+
 .index-spinner::before {
   top: calc(50% - 1vmin);
   left: calc(50% - 1vmin);
@@ -60,4 +76,9 @@ button:disabled {
 
 .index-show-animation {
   animation: kf-fade-in 0.3s ease-in-out forwards;
+}
+
+.index-skeleton-animation {
+  animation: kf-skeleton 5s cubic-bezier(0.6, 0.04, 0.98, 0.335)
+    infinite alternate;
 }

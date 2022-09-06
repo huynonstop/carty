@@ -109,6 +109,7 @@ function AuthForm() {
         id="email"
         autoComplete="username"
         autoCorrect="off"
+        required
       ></input>
       <input
         ref={passwordInputRef}
@@ -118,6 +119,7 @@ function AuthForm() {
         type="password"
         id="password"
         autoCorrect="off"
+        required
       ></input>
       <Button
         type="submit"

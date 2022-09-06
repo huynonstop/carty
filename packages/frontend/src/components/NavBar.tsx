@@ -13,7 +13,7 @@ function NavBar({
   useSidebar?: boolean;
 }) {
   return (
-    <nav className="flex items-center px-2 justify-between h-12">
+    <nav className="flex items-center justify-between h-12">
       <div
         className={classNames([
           'flex items-center h-full gap-2',

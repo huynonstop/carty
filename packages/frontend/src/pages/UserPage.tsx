@@ -1,10 +1,11 @@
 import Button from '@/components/base/Button';
+import MoreCollectionSidebar from '@/components/collection/MoreCollectionSidebar';
 import UserNameEditor from '@/components/user/UserNameEditor';
 import NameEdit from '@/components/user/UserNameEditor';
 import { useAuthContext } from '@/features/auth/auth.context';
 import { getUserInfoById } from '@/features/user/user.api';
 import classNames from '@/utils/classNames';
-import { flexColXYCenter } from '@/utils/tailwind';
+import { flexColXYCenter, flexXYCenter } from '@/utils/tailwind';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -13,7 +14,7 @@ function UserPage() {
   const [userInfo, setUserInfo] = useState<{
     email: string;
     name: string;
-    isOwner: boolean;
+    isUser: boolean;
   } | null>(null);
   const { authState, dispatchLogout } = useAuthContext();
   const params = useParams();
@@ -34,13 +35,12 @@ function UserPage() {
         });
         const data = await res.json();
         if (res.status !== 200) {
-          console.log(data);
           throw new Error('CANNOT_GET_USER_INFO');
         }
         setUserInfo({
           email: data.email,
           name: data.name,
-          isOwner: data.isOwner,
+          isUser: data.isUser,
         });
       } catch (err: any) {
         console.log(err.message);
@@ -58,7 +58,7 @@ function UserPage() {
   };
   return (
     <>
-      <div className="flex flex-col flex-auto gap-4">
+      <div className="flex flex-col flex-auto gap-4 border-l">
         <div className="flex flex-col shadow-card p-6 gap-4">
           <h3>
             <strong>User profile</strong>
@@ -66,6 +66,7 @@ function UserPage() {
           {userInfo ? (
             <div className="flex flex-col gap-4">
               <UserNameEditor
+                canEdit={userInfo && userInfo.isUser}
                 className="inline-flex items-center gap-4"
                 nameValue={userInfo.name}
                 setNameValue={(newName: string) =>
@@ -80,22 +81,36 @@ function UserPage() {
           ) : (
             <div>Not found user info</div>
           )}
-        </div>
-        {userInfo && userInfo.isOwner && (
-          <div className={classNames(['p-4 gap-4', flexColXYCenter])}>
-            <Link to="/about">
-              <h3>More about Carty</h3>
-            </Link>
+          {userId && (
+            <MoreCollectionSidebar
+              onDelete={async () => {}}
+              isOwner={false}
+              ownerId={userId}
+            />
+          )}
+          {userInfo && userInfo.isUser && (
             <Button
               type="button"
               className={classNames([
-                'bg-primary rounded text-white h-9 px-4 py-2',
+                'border border-primary bg-white rounded text-primary h-9 px-4 py-2 max-w-[25%]',
                 'transition-transform hover:translate-y-1',
+                flexXYCenter,
               ])}
               onClick={logoutClick}
             >
-              Logout
+              <p>Logout</p>
             </Button>
+          )}
+        </div>
+        {userInfo && userInfo.isUser && (
+          <div
+            className={classNames([
+              'flex flex-col flex-auto p-4 gap-4',
+            ])}
+          >
+            <Link to="/about">
+              <h3>More about Carty</h3>
+            </Link>
           </div>
         )}
       </div>

@@ -1,19 +1,18 @@
-export interface AuthState {
+import { MyReducerAction } from '@/utils/types';
+
+export interface AuthStateType {
   userId: string;
   accessToken: string;
 }
 
-export enum AuthActionType {
+export const enum AuthActionType {
   'LOGIN' = 'LOGIN',
   'LOGOUT' = 'LOGOUT',
 }
 
-export interface AuthAction {
-  type: AuthActionType;
-  payload: any;
-}
+export type AuthAction = MyReducerAction<AuthActionType>;
 
-export const createInitAuthState = (): AuthState => {
+export const createInitAuthState = (): AuthStateType => {
   return {
     userId: '',
     accessToken: '',
@@ -21,7 +20,7 @@ export const createInitAuthState = (): AuthState => {
 };
 
 export const authReducer = (
-  state: AuthState,
+  state: AuthStateType,
   { type, payload }: AuthAction,
 ) => {
   switch (type) {

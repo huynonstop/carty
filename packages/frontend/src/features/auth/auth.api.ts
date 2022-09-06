@@ -1,5 +1,5 @@
 import { API_URL } from '@/config/api';
-import { jsonFetch } from '@/utils/fetch';
+import { jsonFetch, APIRequest } from '@/utils/fetch';
 
 export interface LoginResponseData {
   userId: string;
@@ -8,7 +8,7 @@ export interface LoginResponseData {
   expiredTime: number;
 }
 
-export const loginRequest = (loginData: {
+export const loginRequest: APIRequest = (loginData: {
   email: string;
   password: string;
 }) => {
@@ -21,7 +21,7 @@ export const loginRequest = (loginData: {
   );
 };
 
-export const renewTokenRequest = (renewData: {
+export const renewTokenRequest: APIRequest = (renewData: {
   accessToken: string;
 }) => {
   return jsonFetch(`${API_URL}/api/auth/renew-token`, renewData, {
@@ -29,7 +29,7 @@ export const renewTokenRequest = (renewData: {
   });
 };
 
-export const signUpRequest = (signUpData: {
+export const signUpRequest: APIRequest = (signUpData: {
   email: string;
   password: string;
 }) => {

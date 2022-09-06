@@ -1,7 +1,5 @@
 import { PropsWithChildren } from 'react';
 import { flexXYCenter } from '@/utils/tailwind';
-import rowIconUrl from '@/assets/row-icon.svg';
-import cardIconUrl from '@/assets/card-icon.svg';
 import classNames from '@/utils/classNames';
 
 const iconMap = {
@@ -46,12 +44,14 @@ interface IconProps {
   type: IconType;
   className?: string;
   isSelected?: boolean;
+  setViewMode: () => void;
 }
 
 function ToggleViewModeIcon({
   type,
   className,
   isSelected,
+  setViewMode,
 }: PropsWithChildren<IconProps>) {
   const selectedClass = isSelected
     ? 'fill-blue-500 bg-slate-200'
@@ -65,6 +65,7 @@ function ToggleViewModeIcon({
         selectedClass,
         className || '',
       ])}
+      onClick={setViewMode}
     >
       {iconMap[type]}
     </div>

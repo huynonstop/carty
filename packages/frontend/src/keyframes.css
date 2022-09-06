@@ -74,3 +74,33 @@
     transform: translateY(-100%);
   }
 }
+
+@keyframes kf-skeleton {
+  from {
+    background-color: rgba(128, 128, 128, 1);
+  }
+  15% {
+    background-color: rgba(128, 128, 128, 0.5);
+  }
+  30% {
+    background-color: rgba(128, 128, 128, 0.8);
+  }
+  40% {
+    background-color: rgba(128, 128, 128, 0.7);
+  }
+  50% {
+    background-color: rgba(128, 128, 128, 0.6);
+  }
+  55% {
+    background-color: rgba(128, 128, 128, 0.7);
+  }
+  60% {
+    background-color: rgba(128, 128, 128, 0.9);
+  }
+  65% {
+    background-color: rgba(128, 128, 128, 0.8);
+  }
+  from {
+    background-color: rgba(128, 128, 128, 1);
+  }
+}

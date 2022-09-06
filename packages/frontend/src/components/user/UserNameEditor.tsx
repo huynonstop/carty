@@ -10,11 +10,13 @@ interface UserNameEditorProps {
   nameValue: string;
   className?: string;
   setNameValue: (newName: string) => void;
+  canEdit: boolean;
 }
 function UserNameEditor({
   nameValue,
   className,
   setNameValue,
+  canEdit,
 }: PropsWithChildren<UserNameEditorProps>) {
   const { authState } = useAuthContext();
   const [isEditMode, setEditMode] = useState(false);
@@ -83,16 +85,18 @@ function UserNameEditor({
       ) : (
         <>
           <h4>{nameValue || 'Name is not set'}</h4>
-          <Button
-            type="button"
-            className={classNames([
-              'bg-primary border-2 border-primary  rounded text-white h-9',
-              'px-4',
-            ])}
-            onClick={onEdit}
-          >
-            Edit
-          </Button>
+          {canEdit && (
+            <Button
+              type="button"
+              className={classNames([
+                'bg-primary border-2 border-primary  rounded text-white h-9',
+                'px-4',
+              ])}
+              onClick={onEdit}
+            >
+              Edit
+            </Button>
+          )}
         </>
       )}
     </div>

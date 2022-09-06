@@ -15,10 +15,15 @@ function HomePage() {
             mixBlendMode: 'luminosity',
           }}
         />
-        <h1 className="text-white text-semibold text-[4rem]">Carty</h1>
+        <h1 className="text-white text-semibold text-[4rem]">
+          Carty
+        </h1>
       </div>
       <Button className="bg-white rounded">
-        <Link to="/auth" className="inline-flex items-center px-4 h-12">
+        <Link
+          to="/auth"
+          className="inline-flex items-center px-4 h-12"
+        >
           <span className="text-lg font-semibold text-primary flex-initial">
             Let's prepare your shopping
           </span>

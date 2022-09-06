@@ -18,12 +18,12 @@ const UserController: ModuleController = {
     const { tokenInfo } = res.locals;
     const { userId } = req.params;
     const user = await UserService.getUserInfo(userId);
-    const isOwner = tokenInfo.userId === userId;
+    const isUser = tokenInfo.userId === userId;
     return res.json({
       userId: user.id,
-      email: isOwner ? user.email : '',
+      email: isUser ? user.email : '',
       name: user.name,
-      isOwner,
+      isUser,
     });
   }),
   setUserName: asyncHandler(async (req, res) => {

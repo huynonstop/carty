@@ -1,4 +1,5 @@
 import { RequestHandler } from 'express';
-export interface ModuleController {
-  [key: string]: RequestHandler;
-}
+export type ModuleController<T extends string = any> = Record<
+  T,
+  RequestHandler
+>;

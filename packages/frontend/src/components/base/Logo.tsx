@@ -15,7 +15,6 @@ function Logo({ text }: { text: string }) {
         alt="logo"
         style={{ width: '32px', height: '32px' }}
       />
-
       <span className="text-primary text-lg">{text}</span>
     </div>
   );

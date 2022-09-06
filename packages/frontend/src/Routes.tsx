@@ -1,14 +1,16 @@
 import { Route, Routes } from 'react-router-dom';
-import RequireAuthGuard from './components/hoc/RequireAuthGuard';
-import RequireUnauthGuard from './components/hoc/RequireUnauthGuard';
+import RequireAuthGuard from './utils/hoc/RequireAuthGuard';
+import RequireUnauthGuard from './utils/hoc/RequireUnauthGuard';
 import Dashboard from './components/layouts/Dashboard';
 import Primary from './components/layouts/Primary';
 import AboutPage from './pages/AboutPage';
 import AuthPage from './pages/AuthPage';
+import CollectionDetailPage from './pages/CollectionDetailPage';
 import CollectionPage from './pages/CollectionPage';
 import HomePage from './pages/HomePage';
 import NotFoundPage from './pages/NotFoundPage';
 import UserPage from './pages/UserPage';
+import { contentContainer } from './utils/tailwind';
 const AppRoutes = () => {
   return (
     <Routes>
@@ -20,7 +22,14 @@ const AppRoutes = () => {
         <Route path="*" element={<NotFoundPage />} />
       </Route>
       <Route element={<RequireAuthGuard to="/" />}>
-        <Route element={<Dashboard logoTo="/collections" />}>
+        <Route
+          element={
+            <Dashboard
+              logoTo="/collections"
+              widthClassName={contentContainer}
+            />
+          }
+        >
           <Route path="/collections" element={<CollectionPage />} />
           <Route path="/user">
             <Route index element={<UserPage />} />
@@ -32,6 +41,12 @@ const AppRoutes = () => {
             <Dashboard useSidebar={false} logoTo="/collections" />
           }
         >
+          <Route path="/collections">
+            <Route
+              path=":collectionId"
+              element={<CollectionDetailPage />}
+            />
+          </Route>
           <Route path="/about" element={<AboutPage />} />
         </Route>
       </Route>

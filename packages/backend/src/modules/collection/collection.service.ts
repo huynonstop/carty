@@ -1,5 +1,12 @@
+import { Collection } from '@prisma/client';
 import { CreateCollectionDTO } from './collection.dto';
-import prismaClient from '@/lib/prisma';
+import prismaClient, { orderByCreatedAt } from '@/lib/prisma';
+import {
+  collectionInclude,
+  searchCollectionByKeyFilter,
+  searchCollectionByKeyWithoutPublicFilter,
+} from './collection.prisma';
+
 const CollectionService = {
   async getUserCollections({ userId }: { userId: string }) {
     return prismaClient.collection.findMany({
@@ -17,9 +24,8 @@ const CollectionService = {
           },
         ],
       },
-      include: {
-        sharedUsers: true,
-      },
+      include: collectionInclude,
+      orderBy: orderByCreatedAt as any,
     });
   },
   async getCollectionById({
@@ -31,6 +37,15 @@ const CollectionService = {
       where: {
         id: collectionId,
       },
+      include: collectionInclude,
+    });
+  },
+  async deleteCollection({ collectionId }: { collectionId: string }) {
+    return prismaClient.collection.delete({
+      where: {
+        id: collectionId,
+      },
+      include: collectionInclude,
     });
   },
   async searchCollection({
@@ -40,58 +55,28 @@ const CollectionService = {
     key?: string;
     userId: string;
   }) {
-    const filter: any[] = [
-      {
-        OR: [
-          {
-            ownerId: userId,
-          },
-          {
-            sharedUsers: {
-              some: {
-                userId: userId,
-              },
-            },
-          },
-          {
-            isPublic: true,
-          },
-        ],
-      },
-    ];
-
-    if (key) {
-      filter.push({
-        OR: [
-          {
-            name: {
-              search: key,
-            },
-            description: {
-              search: key,
-            },
-          },
-          {
-            tags: {
-              some: {
-                label: {
-                  search: key,
-                },
-              },
-            },
-          },
-        ],
-      });
-    }
-    console.log(key);
     return prismaClient.collection.findMany({
       where: {
-        AND: filter,
+        AND: searchCollectionByKeyFilter(userId, key),
       },
-      include: {
-        sharedUsers: true,
-        tags: true,
+      include: collectionInclude,
+    });
+  },
+  async searchUserCollection({
+    userId,
+    key,
+    take,
+  }: {
+    userId: string;
+    key?: string;
+    take?: number;
+  }) {
+    return prismaClient.collection.findMany({
+      where: {
+        AND: searchCollectionByKeyWithoutPublicFilter(userId, key),
       },
+      take,
+      include: collectionInclude,
     });
   },
   async createCollection({
@@ -120,28 +105,64 @@ const CollectionService = {
       },
     });
   },
-  async shareCollection({ collectionId, userId }: any) {
-    return prismaClient.collectionUser.create({
-      data: {
-        userId,
+  async cloneCollection({
+    collectionId,
+    userId,
+  }: {
+    collectionId: string;
+    userId: string;
+  }) {
+    const { name, description, tags, items } =
+      (await CollectionService.getCollectionById({
         collectionId,
-      },
-    });
-  },
-  async updatePublicCollection(
-    { collectionId }: any,
-    { isPublic }: any,
-  ) {
-    return prismaClient.collection.update({
-      where: {
-        id: collectionId,
-      },
+      })) as Collection & { tags: any[]; items: any[] };
+    return prismaClient.collection.create({
       data: {
-        isPublic,
+        name: `${name} clone`,
+        description,
+        ownerId: userId,
+        isPublic: false,
+        tags: {
+          connectOrCreate: tags.map(({ label }) => ({
+            create: {
+              label,
+            },
+            where: {
+              label,
+            },
+          })),
+        },
+        items: {
+          createMany: {
+            data: items.map(
+              ({ name, description, price, quantity }) => ({
+                name,
+                description,
+                price,
+                quantity,
+              }),
+            ),
+          },
+        },
       },
     });
   },
-  async isOwner({ collectionId, userId }: any) {
+  async getPublicCollectionsByUser({
+    userId,
+    take,
+  }: {
+    userId: string;
+    take?: number;
+  }) {
+    return prismaClient.collection.findMany({
+      where: {
+        isPublic: true,
+        ownerId: userId,
+      },
+      take,
+    });
+  },
+  async checkOwner({ collectionId, userId }: any) {
     return prismaClient.collection.findFirstOrThrow({
       where: {
         id: collectionId,
@@ -149,7 +170,52 @@ const CollectionService = {
       },
     });
   },
+  async checkPublicOrUser({ collectionId, userId }: any) {
+    return prismaClient.collection.findFirstOrThrow({
+      where: {
+        id: collectionId,
+        OR: [
+          { isPublic: true },
+          {
+            ownerId: userId,
+          },
+          {
+            sharedUsers: {
+              some: {
+                userId: userId,
+              },
+            },
+          },
+        ],
+      },
+      include: {
+        sharedUsers: true,
+      },
+    });
+  },
   async isUser({ collectionId, userId }: any) {
+    return prismaClient.collection.findFirst({
+      where: {
+        id: collectionId,
+        OR: [
+          {
+            ownerId: userId,
+          },
+          {
+            sharedUsers: {
+              some: {
+                userId: userId,
+              },
+            },
+          },
+        ],
+      },
+      include: {
+        sharedUsers: true,
+      },
+    });
+  },
+  async checkUser({ collectionId, userId }: any) {
     return prismaClient.collection.findFirstOrThrow({
       where: {
         id: collectionId,
@@ -170,6 +236,73 @@ const CollectionService = {
         sharedUsers: true,
       },
     });
+  },
+  async updatedNowTransaction({
+    collectionId,
+    operation,
+  }: {
+    collectionId: string;
+    operation: any;
+  }) {
+    return prismaClient.$transaction([
+      operation,
+      prismaClient.collection.update({
+        where: {
+          id: collectionId,
+        },
+        data: {
+          updatedAt: new Date(),
+        },
+        include: collectionInclude,
+      }),
+    ]);
+  },
+  async updateCollection(
+    { collectionId }: { collectionId: string },
+    updateData: any,
+  ) {
+    return prismaClient.collection.update({
+      where: {
+        id: collectionId,
+      },
+      data: updateData,
+      include: collectionInclude,
+    });
+  },
+  async updateCollectionTags(
+    { collectionId }: { collectionId: string },
+    { tags }: { tags: string[] },
+  ) {
+    return prismaClient.$transaction([
+      prismaClient.collection.update({
+        where: {
+          id: collectionId,
+        },
+        data: {
+          tags: {
+            set: [],
+          },
+        },
+      }),
+      prismaClient.collection.update({
+        where: {
+          id: collectionId,
+        },
+        data: {
+          tags: {
+            connectOrCreate: tags.map((tag) => ({
+              where: {
+                label: tag,
+              },
+              create: {
+                label: tag,
+              },
+            })),
+          },
+        },
+        include: collectionInclude,
+      }),
+    ]);
   },
 };
 export default CollectionService;
