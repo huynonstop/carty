@@ -3,6 +3,7 @@ import { asyncHandler } from '@/utils/asyncHandler';
 import UserService from '@/modules/user/user.service';
 import { BadRequest } from '@/utils/customError';
 import ShareService from './share.service';
+import { useIO } from '@/lib/socket';
 
 type ShareControllerHandler =
   | 'shareCollection'
@@ -35,6 +36,11 @@ const ShareController: ModuleController<ShareControllerHandler> = {
     const { shareId } = req.params;
     const collectionUser = await ShareService.unshareCollection({
       shareId,
+    });
+    useIO((io) => {
+      io.to(collectionUser.collectionId).emit(
+        'collection:share:update',
+      );
     });
     return res.json({ collectionUser });
   }),

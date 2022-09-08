@@ -1,11 +1,9 @@
 import { API_URL } from '@/config/api';
-import { jsonFetch } from '@/utils/fetch';
+import { APIRequest, jsonFetch } from '@/utils/fetch';
 
-export const getUserInfo = ({
-  accessToken,
-}: {
+export const getUserInfoRequest: APIRequest<{
   accessToken: string;
-}) => {
+}> = ({ accessToken }) => {
   return jsonFetch(
     `${API_URL}/api/user`,
     { accessToken },
@@ -13,13 +11,10 @@ export const getUserInfo = ({
   );
 };
 
-export const getUserInfoById = ({
-  accessToken,
-  userId,
-}: {
+export const getUserInfoByIdRequest: APIRequest<{
   accessToken: string;
   userId: string;
-}) => {
+}> = ({ accessToken, userId }) => {
   return jsonFetch(
     `${API_URL}/api/user/${userId}`,
     { accessToken },
@@ -27,13 +22,10 @@ export const getUserInfoById = ({
   );
 };
 
-export const setUserName = ({
-  accessToken,
-  name,
-}: {
+export const setUserNameRequest: APIRequest<{
   accessToken: string;
   name: string;
-}) => {
+}> = ({ accessToken, name }) => {
   return jsonFetch(
     `${API_URL}/api/user/`,
     { accessToken, name },

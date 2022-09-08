@@ -1,7 +1,7 @@
 import { useAuthContext } from '@/features/auth/auth.context';
 import {
-  searchCollections,
-  searchUserCollection,
+  searchCollectionsRequest,
+  searchUserCollectionRequest,
 } from '@/features/collection/collection.api';
 import { debounced } from '@/utils';
 import classNames from '@/utils/classNames';
@@ -50,7 +50,7 @@ export function UserSearchBox({
       setData([]);
     } else {
       debouncedWrapper(
-        searchUserCollection,
+        searchUserCollectionRequest,
         {
           accessToken: authState.accessToken,
           key: searchText,
@@ -211,7 +211,7 @@ export const useCommunitySearchBox = (accessToken: string) => {
   useEffect(() => {
     setCanFetchMore(true);
     debouncedWrapper(
-      searchCollections,
+      searchCollectionsRequest,
       {
         accessToken,
         key: searchText,
@@ -230,7 +230,7 @@ export const useCommunitySearchBox = (accessToken: string) => {
       ? searchCommunityCollections[length - 1].id
       : undefined;
     debouncedWrapper(
-      searchCollections,
+      searchCollectionsRequest,
       {
         accessToken,
         key: searchText,

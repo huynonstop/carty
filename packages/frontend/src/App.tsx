@@ -6,15 +6,15 @@ import { usePersistAuth } from './features/auth/auth.context';
 import AppRoutes from './Routes';
 
 function App() {
-  const isPersistingAuth = usePersistAuth();
+  const didPersistAuth = usePersistAuth();
   return (
     <div className="App">
-      {isPersistingAuth ? (
+      {didPersistAuth ? (
+        <AppRoutes />
+      ) : (
         <Primary>
           <Backdrop isShow={true} />
         </Primary>
-      ) : (
-        <AppRoutes />
       )}
       <ToastContainer
         position="bottom-left"

@@ -1,6 +1,7 @@
 import { asyncHandler } from '@/utils/asyncHandler';
 import { ModuleController } from '@/common/type';
 import CollectionService from './collection.service';
+import { useIO } from '@/lib/socket';
 
 type CollectionControllerHandler =
   | 'createCollection'
@@ -12,7 +13,8 @@ type CollectionControllerHandler =
   | 'searchCollections'
   | 'searchUserCollection'
   | 'updateCollection'
-  | 'updateCollectionTags';
+  | 'updateCollectionTags'
+  | 'updateCollectionPublic';
 
 const CollectionController: ModuleController<CollectionControllerHandler> =
   {
@@ -128,6 +130,11 @@ const CollectionController: ModuleController<CollectionControllerHandler> =
           },
           req.body,
         );
+      useIO((io) => {
+        io.to(collectionId).emit('collection:update', {
+          collection: updatedCollection,
+        });
+      });
       return res.json({
         updatedCollection,
       });
@@ -144,6 +151,27 @@ const CollectionController: ModuleController<CollectionControllerHandler> =
             tags,
           },
         );
+      useIO((io) => {
+        io.to(collectionId).emit('collection:update', {
+          collection: updatedCollection,
+        });
+      });
+      return res.json({
+        updatedCollection,
+      });
+    }),
+    updateCollectionPublic: asyncHandler(async (req, res) => {
+      const { collectionId } = req.params;
+      const updatedCollection =
+        await CollectionService.updateCollection(
+          {
+            collectionId,
+          },
+          req.body,
+        );
+      useIO((io) => {
+        io.to(collectionId).emit('collection:share:update');
+      });
       return res.json({
         updatedCollection,
       });

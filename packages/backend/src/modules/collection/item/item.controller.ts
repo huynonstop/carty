@@ -1,4 +1,6 @@
+import { Collection } from '@prisma/client';
 import { ModuleController } from '@/common/type';
+import { useIO } from '@/lib/socket';
 import { asyncHandler } from '@/utils/asyncHandler';
 import CollectionItemService from './item.service';
 
@@ -19,6 +21,14 @@ const CollectionItemController: ModuleController<CollectionItemControllerHandler
           quantity,
           collectionId,
         });
+      useIO((io) => {
+        io.to(collectionId).emit('collection:update', {
+          collection,
+        });
+        io.to(collectionId).emit('collection:items:update', {
+          items: (collection as Collection & { items: any[] }).items,
+        });
+      });
       return res.json({
         collection,
         newItem,
@@ -40,6 +50,14 @@ const CollectionItemController: ModuleController<CollectionItemControllerHandler
             buyerId,
           },
         );
+      useIO((io) => {
+        io.to(collectionId).emit('collection:update', {
+          collection,
+        });
+        io.to(collectionId).emit('collection:items:update', {
+          items: (collection as Collection & { items: any[] }).items,
+        });
+      });
       return res.json({
         collection,
         editedItem,
@@ -53,6 +71,14 @@ const CollectionItemController: ModuleController<CollectionItemControllerHandler
           itemId,
           collectionId,
         });
+      useIO((io) => {
+        io.to(collectionId).emit('collection:update', {
+          collection,
+        });
+        io.to(collectionId).emit('collection:items:update', {
+          items: (collection as Collection & { items: any[] }).items,
+        });
+      });
       return res.json({
         collection,
         deletedItem,

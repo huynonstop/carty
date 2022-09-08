@@ -16,6 +16,7 @@ interface CollectionDetailSidebarProps {
   className: string;
   editCollection: (patch: 'description' | 'tags') => any;
   isOwner: boolean;
+  isUser: boolean;
 }
 
 function CollectionDetailSidebar({
@@ -27,6 +28,7 @@ function CollectionDetailSidebar({
   items,
   editCollection,
   isOwner,
+  isUser,
 }: CollectionDetailSidebarProps) {
   const { newTag, setNewTag } = useTagsInput();
   const totalPrice = totalPriceReducer(items);
@@ -86,25 +88,27 @@ function CollectionDetailSidebar({
         <p className="text-sm break-all">{description}</p>
       </EditGroupState>
 
-      <div className="flex flex-col gap-1">
-        <strong>Details</strong>
-        <div className="text-sm">
-          <div className="whitespace-nowrap">
-            Total {`${buyPrice}$/${totalPrice}$`}
-          </div>
-          <div>
-            <span>
-              {lastUpdateStatus === justUpdated
-                ? lastUpdateStatus
-                : `Last updated ${lastUpdateStatus}`}
-            </span>
-          </div>
-          <div>
-            Created at{' '}
-            <span>{new Date(createdAt).toLocaleDateString()}</span>
+      {isUser && (
+        <div className="flex flex-col gap-1">
+          <strong>Details</strong>
+          <div className="text-sm">
+            <div className="whitespace-nowrap">
+              Total {`${buyPrice}$/${totalPrice}$`}
+            </div>
+            <div>
+              <span>
+                {lastUpdateStatus === justUpdated
+                  ? lastUpdateStatus
+                  : `Last updated ${lastUpdateStatus}`}
+              </span>
+            </div>
+            <div>
+              Created at{' '}
+              <span>{new Date(createdAt).toLocaleDateString()}</span>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </aside>
   );
 }

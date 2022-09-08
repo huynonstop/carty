@@ -6,14 +6,14 @@ import {
   useState,
 } from 'react';
 import Spinner from '../Spinner';
+import { toast } from 'react-toastify';
 interface ItemCardProps {
   className?: string;
   onClick?: MouseEventHandler<HTMLElement>;
   item: any;
-  onToggle: (toggleData: {
+  toggleItem: (toggleData: {
     checked: boolean;
     itemId: string;
-    collectionId: string;
   }) => Promise<void>;
   isUser: boolean;
 }
@@ -21,7 +21,7 @@ function ItemCard({
   className = '',
   item,
   onClick,
-  onToggle,
+  toggleItem,
   isUser,
 }: ItemCardProps) {
   const [isLoading, setIsLoading] = useState(false);
@@ -40,13 +40,12 @@ function ItemCard({
   > = async (e) => {
     setIsLoading(true);
     try {
-      await onToggle({
+      await toggleItem({
         checked: e.target.checked,
         itemId: id,
-        collectionId,
       });
     } catch (err) {
-      console.log(err);
+      toast.error('Toggle failed');
     } finally {
       setIsLoading(false);
     }

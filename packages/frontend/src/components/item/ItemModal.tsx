@@ -3,35 +3,27 @@ import Modal from '../base/Modal';
 import ItemDetail from './ItemDetail';
 
 interface ItemModalProps {
-  setCollection: (collection: any) => void;
+  editItem: (data: any) => Promise<void>;
+  deleteItem: (data: { itemId: string }) => Promise<void>;
 }
 
-function ItemModal({ setCollection }: ItemModalProps) {
-  const { modalItem, setModalItem, setItems } = useItemsContext();
-  const onCloseModal = () => {
+function ItemModal({ editItem, deleteItem }: ItemModalProps) {
+  const { modalItem, setModalItem } = useItemsContext();
+  const isShow = !!modalItem;
+  const closeModal = () => {
     setModalItem(null);
   };
-  const afterEdit = (collection: any, items: any[]) => {
-    setCollection(collection);
-    setModalItem(null);
-    setItems(items);
-  };
-  const afterDelete = (collection: any, items: any[]) => {
-    setCollection(collection);
-    setModalItem(null);
-    setItems(items);
-  };
-  if (!modalItem) return <></>;
+  if (!isShow) return <></>;
   return (
     <Modal
       className="w-[32rem] px-12 py-16 rounded-xl"
-      isShow={!!modalItem}
+      isShow={isShow}
     >
       <ItemDetail
         item={modalItem}
-        afterEdit={afterEdit}
-        afterDelete={afterDelete}
-        onReset={onCloseModal}
+        editItem={editItem}
+        deleteItem={deleteItem}
+        closeModal={closeModal}
       />
     </Modal>
   );

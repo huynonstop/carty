@@ -2,6 +2,7 @@ import { MyContextWithDispatchType } from '@/utils/types';
 import {
   createContext,
   PropsWithChildren,
+  useCallback,
   useContext,
   useEffect,
   useReducer,
@@ -101,10 +102,10 @@ export const useAuthContext = () => {
     );
   };
 
-  const isAuth = () => {
+  const isAuth = useCallback(() => {
     const { accessToken, userId } = authState;
     return accessToken !== '' && userId !== '';
-  };
+  }, [authState]);
   return {
     authState,
     authDispatch,
@@ -114,15 +115,14 @@ export const useAuthContext = () => {
   };
 };
 
+let didPersistAuth = false;
 export const usePersistAuth = () => {
   const { authState, isAuth, dispatchLogin, dispatchLogout } =
     useAuthContext();
-  const [isPersistingAuth, setPersistingAuth] = useState(true);
 
   useEffect(() => {
     const tryPersist = async () => {
       try {
-        setPersistingAuth(true);
         if (!isAuth()) {
           throw new Error('CANNOT_PERSIST_AUTH');
         }
@@ -132,17 +132,17 @@ export const usePersistAuth = () => {
         if (res.status !== 200) {
           throw new Error('err status');
         }
-        console.log('dispatch');
         dispatchLogin({ userId, ...data });
       } catch (err) {
         console.log(err);
         dispatchLogout();
-      } finally {
-        setPersistingAuth(false);
       }
     };
-    tryPersist();
+    if (!didPersistAuth) {
+      didPersistAuth = true;
+      tryPersist();
+    }
   }, []);
 
-  return isPersistingAuth;
+  return didPersistAuth;
 };

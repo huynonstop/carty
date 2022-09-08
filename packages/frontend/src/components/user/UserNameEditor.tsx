@@ -1,5 +1,5 @@
 import { useAuthContext } from '@/features/auth/auth.context';
-import { setUserName } from '@/features/user/user.api';
+import { setUserNameRequest } from '@/features/user/user.api';
 import classNames from '@/utils/classNames';
 import { flexXYCenter } from '@/utils/tailwind';
 import { PropsWithChildren, useRef, useState } from 'react';
@@ -31,20 +31,18 @@ function UserNameEditor({
     if (nameInputRef.current && nameInputRef.current.value) {
       try {
         console.log(nameInputRef.current.value);
-        const res = await setUserName({
+        const res = await setUserNameRequest({
           accessToken: authState.accessToken,
           name: nameInputRef.current.value,
         });
         const data = await res.json();
         if (res.status !== 200) {
-          console.log(data);
           throw new Error('CANNOT_SET');
         }
         setNameValue(data.name);
         toast.success('Username set');
         setEditMode(false);
       } catch (err) {
-        console.log(err);
         toast.error('Cannot set username');
       }
     }

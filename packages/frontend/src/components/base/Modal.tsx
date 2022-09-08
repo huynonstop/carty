@@ -6,7 +6,7 @@ import Backdrop from './Backdrop';
 
 interface ModalProps {
   isShow: boolean;
-  onCloseModal?: () => void;
+  closeModal?: () => void;
   className?: string;
 }
 
@@ -14,7 +14,7 @@ function Modal({
   className = '',
   isShow,
   children,
-  onCloseModal = () => {},
+  closeModal = () => {},
 }: PropsWithChildren<ModalProps>) {
   const [isDelayShow] = useDelayShow(isShow, 300);
   const animationClass = isShow
@@ -25,7 +25,7 @@ function Modal({
       <Backdrop
         className={classNames([animationClass, 'z-10'])}
         isShow={isDelayShow}
-        onClick={onCloseModal}
+        onClick={closeModal}
       />
       <dialog
         className={classNames([

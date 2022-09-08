@@ -8,10 +8,10 @@ export interface LoginResponseData {
   expiredTime: number;
 }
 
-export const loginRequest: APIRequest = (loginData: {
+export const loginRequest: APIRequest<{
   email: string;
   password: string;
-}) => {
+}> = (loginData) => {
   return jsonFetch(
     `${API_URL}/api/auth/login-email-password`,
     loginData,
@@ -21,18 +21,18 @@ export const loginRequest: APIRequest = (loginData: {
   );
 };
 
-export const renewTokenRequest: APIRequest = (renewData: {
+export const renewTokenRequest: APIRequest<{
   accessToken: string;
-}) => {
+}> = (renewData) => {
   return jsonFetch(`${API_URL}/api/auth/renew-token`, renewData, {
     method: 'GET',
   });
 };
 
-export const signUpRequest: APIRequest = (signUpData: {
+export const signUpRequest: APIRequest<{
   email: string;
   password: string;
-}) => {
+}> = (signUpData) => {
   return jsonFetch(
     `${API_URL}/api/auth/signup-email-password`,
     signUpData,

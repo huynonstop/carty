@@ -1,20 +1,19 @@
 import { API_URL } from '@/config/api';
 import { APIRequest, jsonFetch } from '@/utils/fetch';
 
-export const getCollections = (getsData: { accessToken: string }) => {
+export const getCollectionsRequest: APIRequest<{
+  accessToken: string;
+}> = (getsData) => {
   return jsonFetch(`${API_URL}/api/collection`, getsData, {
     method: 'GET',
     cache: 'no-cache',
   });
 };
 
-export const getCollectionById = ({
-  collectionId,
-  ...getData
-}: {
+export const getCollectionByIdRequest: APIRequest<{
   accessToken: string;
   collectionId: string;
-}) => {
+}> = ({ collectionId, ...getData }) => {
   return jsonFetch(
     `${API_URL}/api/collection/${collectionId}`,
     getData,
@@ -22,15 +21,11 @@ export const getCollectionById = ({
   );
 };
 
-export const getPublicCollectionsByUser = ({
-  userId,
-  take,
-  ...getData
-}: {
+export const getPublicCollectionsByUserRequest: APIRequest<{
   userId: string;
   accessToken: string;
   take?: number;
-}) => {
+}> = ({ userId, take, ...getData }) => {
   let query = '';
   if (take) {
     query += `?take=${take.toString()}`;
@@ -42,13 +37,10 @@ export const getPublicCollectionsByUser = ({
   );
 };
 
-export const deleteCollection = ({
-  collectionId,
-  accessToken,
-}: {
+export const deleteCollectionRequest: APIRequest<{
   accessToken: string;
   collectionId: string;
-}) => {
+}> = ({ collectionId, accessToken }) => {
   return jsonFetch(
     `${API_URL}/api/collection/${collectionId}`,
     { accessToken },
@@ -56,19 +48,18 @@ export const deleteCollection = ({
   );
 };
 
-export const createCollection = (createData: any) => {
+export const createCollectionRequest: APIRequest<any> = (
+  createData,
+) => {
   return jsonFetch(`${API_URL}/api/collection`, createData, {
     method: 'POST',
   });
 };
 
-export const cloneCollection = ({
-  collectionId,
-  accessToken,
-}: {
+export const cloneCollectionRequest: APIRequest<{
   collectionId: string;
   accessToken: string;
-}) => {
+}> = ({ collectionId, accessToken }) => {
   return jsonFetch(
     `${API_URL}/api/collection/${collectionId}/clone`,
     {
@@ -80,7 +71,7 @@ export const cloneCollection = ({
   );
 };
 
-export const updateCollection: APIRequest<{
+export const updateCollectionRequest: APIRequest<{
   patch: 'name' | 'description' | 'isPublic' | 'tags';
   collectionId: string;
   accessToken: string;
@@ -96,7 +87,7 @@ export const updateCollection: APIRequest<{
   );
 };
 
-export const searchCollections: APIRequest<{
+export const searchCollectionsRequest: APIRequest<{
   accessToken: string;
   key: string;
   cursor?: string;
@@ -122,7 +113,7 @@ export const searchCollections: APIRequest<{
   );
 };
 
-export const searchUserCollection: APIRequest<{
+export const searchUserCollectionRequest: APIRequest<{
   accessToken: string;
   key: string;
   take?: number;

@@ -1,7 +1,7 @@
 import { API_URL } from '@/config/api';
 import { jsonFetch, APIRequest } from '@/utils/fetch';
 
-export const createItem: APIRequest = ({
+export const createItemRequest: APIRequest = ({
   collectionId,
   ...createData
 }) => {
@@ -14,7 +14,7 @@ export const createItem: APIRequest = ({
   );
 };
 
-export const toggleItem: APIRequest<{
+export const toggleItemRequest: APIRequest<{
   itemId: string;
   collectionId: string;
   buyerId: string | null;
@@ -29,7 +29,7 @@ export const toggleItem: APIRequest<{
   );
 };
 
-export const updateItem: APIRequest = ({
+export const updateItemRequest: APIRequest = ({
   itemId,
   collectionId,
   ...updateData
@@ -43,7 +43,7 @@ export const updateItem: APIRequest = ({
   );
 };
 
-export const deleteItem: APIRequest<{
+export const deleteItemRequest: APIRequest<{
   itemId: string;
   collectionId: string;
   accessToken: string;

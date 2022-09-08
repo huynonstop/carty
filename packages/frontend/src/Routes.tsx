@@ -5,7 +5,7 @@ import Dashboard from './components/layouts/Dashboard';
 import Primary from './components/layouts/Primary';
 import AboutPage from './pages/AboutPage';
 import AuthPage from './pages/AuthPage';
-import CollectionDetailPage from './pages/CollectionDetailPage';
+import CollectionDetailPage from './pages/CollectionDetail/CollectionDetailPage';
 import CollectionPage from './pages/CollectionPage';
 import HomePage from './pages/HomePage';
 import NotFoundPage from './pages/NotFoundPage';

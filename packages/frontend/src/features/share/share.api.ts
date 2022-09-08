@@ -1,7 +1,7 @@
 import { API_URL } from '@/config/api';
 import { APIRequest, jsonFetch } from '@/utils/fetch';
 
-export const shareCollection: APIRequest<{
+export const shareCollectionRequest: APIRequest<{
   collectionId: string;
   accessToken: string;
   email: string;
@@ -15,7 +15,7 @@ export const shareCollection: APIRequest<{
   );
 };
 
-export const unshareCollection: APIRequest<{
+export const unshareCollectionRequest: APIRequest<{
   collectionId: string;
   accessToken: string;
   shareId: string;
@@ -29,7 +29,7 @@ export const unshareCollection: APIRequest<{
   );
 };
 
-export const getSharedUsers: APIRequest<{
+export const getSharedUsersRequest: APIRequest<{
   collectionId: string;
   accessToken: string;
 }> = ({ collectionId, accessToken }) => {

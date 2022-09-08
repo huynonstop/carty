@@ -3,13 +3,18 @@ import CreateItemForm from './CreateItemForm';
 
 interface CreateItemModalProps {
   isShow: boolean;
-  onCloseModal: () => void;
-  afterCreateItem: (collection: any, items: any[]) => void;
+  closeModal: () => void;
+  createItem: (data: {
+    name: string;
+    quantity: number;
+    price: number;
+    description: string;
+  }) => Promise<void>;
 }
 function CreateItemModal({
   isShow,
-  onCloseModal,
-  afterCreateItem,
+  closeModal,
+  createItem,
 }: CreateItemModalProps) {
   return (
     <Modal
@@ -17,8 +22,8 @@ function CreateItemModal({
       isShow={isShow}
     >
       <CreateItemForm
-        afterCreateItem={afterCreateItem}
-        onReset={onCloseModal}
+        createItem={createItem}
+        closeModal={closeModal}
       />
     </Modal>
   );

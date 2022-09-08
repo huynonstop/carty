@@ -1,57 +1,46 @@
-import { useAuthContext } from '@/features/auth/auth.context';
-import { createItem } from '@/features/item/item.api';
 import classNames from '@/utils/classNames';
-import { useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Button from '../base/Button';
 import { useInput } from '../base/Input';
 
 interface CreateItemFormProps {
-  onReset: () => void;
-  afterCreateItem: (collection: any, items: any[]) => void;
+  closeModal: () => void;
+  createItem: (data: {
+    name: string;
+    quantity: number;
+    price: number;
+    description: string;
+  }) => Promise<void>;
 }
 
 function CreateItemForm({
-  onReset,
-  afterCreateItem,
+  closeModal,
+  createItem,
 }: CreateItemFormProps) {
   const [name, onChangeName] = useInput('');
   const [quantity, onChangeQuantity] = useInput(1);
   const [price, onChangePrice] = useInput(0);
   const [description, onChangeDescription] = useInput('');
-  const { authState } = useAuthContext();
-  const params = useParams();
 
   return (
     <form
       className="flex flex-col text-primary gap-4"
       onReset={(e) => {
         e.preventDefault();
-        onReset();
+        closeModal();
       }}
       onSubmit={async (e) => {
         e.preventDefault();
-        const formData = {
-          name,
-          quantity,
-          price,
-          description,
-          accessToken: authState.accessToken,
-          collectionId: params.collectionId,
-        };
         try {
-          const res = await createItem(formData);
-          const data = await res.json();
-          if (res.status !== 200) {
-            throw data;
-          }
-          const { collection, newItem } = data;
-          afterCreateItem(collection, collection.items);
-          onReset();
-          toast.success(`Created ${newItem.name}`);
+          await createItem({
+            name,
+            quantity,
+            price,
+            description,
+          });
+          toast.success(`Created ${name}`);
+          closeModal();
         } catch (error) {
-          console.log(error);
           toast.error('Create failed');
         }
       }}

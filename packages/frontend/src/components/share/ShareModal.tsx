@@ -1,8 +1,8 @@
 import { useAuthContext } from '@/features/auth/auth.context';
 import {
-  getSharedUsers,
-  shareCollection,
-  unshareCollection,
+  getSharedUsersRequest,
+  shareCollectionRequest,
+  unshareCollectionRequest,
 } from '@/features/share/share.api';
 import { useFetch } from '@/utils/hooks/useFetch';
 import { useEffect, useRef } from 'react';
@@ -15,15 +15,15 @@ import ShareInfo from './ShareInfo';
 interface ShareModalProps {
   isShow: boolean;
   isPublic: boolean;
-  onCloseModal: () => void;
-  onSwitchPublic: () => void;
+  closeModal: () => void;
+  switchPublic: () => void;
   collectionId: string;
 }
 function ShareModal({
   isShow,
-  onCloseModal,
+  closeModal,
   isPublic,
-  onSwitchPublic,
+  switchPublic,
   collectionId,
 }: ShareModalProps) {
   const { authState, isAuth } = useAuthContext();
@@ -32,7 +32,7 @@ function ShareModal({
   useEffect(() => {
     if (isAuth()) {
       wrapper(
-        getSharedUsers,
+        getSharedUsersRequest,
         {
           collectionId,
           accessToken: authState.accessToken,
@@ -41,9 +41,9 @@ function ShareModal({
       );
     }
   }, []);
-  const onShareToEmail = async (email: string) => {
+  const shareToEmail = async (email: string) => {
     try {
-      const res = await shareCollection({
+      const res = await shareCollectionRequest({
         collectionId,
         accessToken: authState.accessToken,
         email,
@@ -60,7 +60,7 @@ function ShareModal({
   };
   const unshare = async (shareId: string) => {
     try {
-      const res = await unshareCollection({
+      const res = await unshareCollectionRequest({
         collectionId,
         accessToken: authState.accessToken,
         shareId,
@@ -81,7 +81,7 @@ function ShareModal({
     <Modal
       className="w-[32rem] px-12 py-16 rounded-xl"
       isShow={isShow}
-      onCloseModal={onCloseModal}
+      closeModal={closeModal}
     >
       <div className="flex flex-col text-primary gap-4">
         <div className="flex justify-between items-center">
@@ -94,7 +94,7 @@ function ShareModal({
             >
               Private
             </span>
-            <Switch isOn={isPublic} onSwitch={onSwitchPublic} />
+            <Switch isOn={isPublic} onSwitch={switchPublic} />
             <span
               className={`text-sm ${
                 isPublic ? 'text-primary' : 'text-slate-400'
@@ -109,7 +109,7 @@ function ShareModal({
           onSubmit={(e) => {
             e.preventDefault();
             if (inputRef.current?.value) {
-              onShareToEmail(inputRef.current?.value);
+              shareToEmail(inputRef.current?.value);
             }
           }}
         >

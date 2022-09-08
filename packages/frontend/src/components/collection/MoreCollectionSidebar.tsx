@@ -1,5 +1,5 @@
 import { useAuthContext } from '@/features/auth/auth.context';
-import { getPublicCollectionsByUser } from '@/features/collection/collection.api';
+import { getPublicCollectionsByUserRequest } from '@/features/collection/collection.api';
 import classNames from '@/utils/classNames';
 import { useFetch } from '@/utils/hooks/useFetch';
 import { useEffect } from 'react';
@@ -10,20 +10,20 @@ interface MoreCollectionSidebarProps {
   isOwner: boolean;
   className?: string;
   ownerId: string;
-  onDelete: () => Promise<void>;
+  deleteCollection?: () => Promise<void>;
 }
 
 function MoreCollectionSidebar({
   className = '',
   isOwner,
   ownerId,
-  onDelete,
+  deleteCollection,
 }: MoreCollectionSidebarProps) {
   const { authState } = useAuthContext();
   const [collections, wrapper] = useFetch([]);
   useEffect(() => {
     wrapper(
-      getPublicCollectionsByUser,
+      getPublicCollectionsByUserRequest,
       {
         userId: ownerId,
         accessToken: authState.accessToken,
@@ -36,7 +36,7 @@ function MoreCollectionSidebar({
     <aside className={className}>
       {isOwner && (
         <Button
-          onClick={onDelete}
+          onClick={deleteCollection}
           className={classNames([
             'whitespace-nowrap text-sm  rounded p-2',
             'border border-red-500 bg-red-500 text-white',

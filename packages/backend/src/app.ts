@@ -1,14 +1,13 @@
-import { waitMiddleware } from './common/middleware';
 import { prismaErrorFilter } from './lib/prisma';
 import express, { ErrorRequestHandler } from 'express';
-import cors from 'cors';
 import { customErrorFilter, NotFound } from '@/utils/customError';
 import { apiRouter, statusRouter } from '@/router';
+import cors, { corsOptions } from '@/lib/cors';
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors(corsOptions));
 // app.use(waitMiddleware);
 
 app.use('/status', statusRouter);

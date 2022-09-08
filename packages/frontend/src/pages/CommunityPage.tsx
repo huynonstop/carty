@@ -7,8 +7,8 @@ import {
   useElementObserver,
 } from '@/components/SearchBox';
 import { useAuthContext } from '@/features/auth/auth.context';
-import { searchCollections } from '@/features/collection/collection.api';
-import { getMostPopularTags } from '@/features/tag/tag.api';
+import { searchCollectionsRequest } from '@/features/collection/collection.api';
+import { getMostPopularTagsRequest } from '@/features/tag/tag.api';
 import { debounced } from '@/utils';
 import { WithClassName } from '@/utils/hoc/WithClassName';
 import { useFetch } from '@/utils/hooks/useFetch';
@@ -36,7 +36,7 @@ function CommunityPage() {
   useEffect(() => {
     if (isAuth()) {
       tagsWrapper(
-        getMostPopularTags,
+        getMostPopularTagsRequest,
         {
           accessToken: authState.accessToken,
           take: 10,

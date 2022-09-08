@@ -10,6 +10,7 @@ export const useFetch = <T = any>(
     mapper?: (data: any) => any,
     callback?: (data: any) => any,
     isSetData?: boolean,
+    errorHandler?: (err: unknown) => any,
   ) => Promise<void>,
   {
     loading: boolean;
@@ -27,6 +28,7 @@ export const useFetch = <T = any>(
     mapper?: (data: any) => any,
     callback?: (data: any) => any,
     isSetData: boolean = true,
+    errorHandler?: (err: unknown) => any,
   ) => {
     setLoading(true);
     try {
@@ -39,7 +41,7 @@ export const useFetch = <T = any>(
       isSetData && setData(newData);
       callback && callback(resData);
     } catch (err) {
-      console.log(err);
+      errorHandler && errorHandler(err);
       setError(err);
     } finally {
       setLoading(false);

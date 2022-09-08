@@ -1,5 +1,8 @@
 import { useAuthContext } from '@/features/auth/auth.context';
-import { deleteItem, updateItem } from '@/features/item/item.api';
+import {
+  deleteItemRequest,
+  updateItemRequest,
+} from '@/features/item/item.api';
 import classNames from '@/utils/classNames';
 import useFormRef from '@/utils/hooks/useFormRef';
 import { FormEventHandler, MouseEventHandler } from 'react';
@@ -8,20 +11,19 @@ import Button from '../base/Button';
 import UserLink from './UserLink';
 
 interface ItemDetailProps {
-  item: any | null;
-  onReset: () => void;
-  afterEdit: (collection: any, items: any[]) => void;
-  afterDelete: (collection: any, items: any[]) => void;
+  item: any;
+  closeModal: () => void;
+  editItem: (data: any) => Promise<void>;
+  deleteItem: (data: { itemId: string }) => Promise<void>;
 }
 
 function ItemDetail({
   item,
-  onReset,
-  afterEdit,
-  afterDelete,
+  closeModal,
+  editItem,
+  deleteItem,
 }: ItemDetailProps) {
   const { authState } = useAuthContext();
-  if (!item) return <></>;
   const {
     id,
     name,
@@ -37,31 +39,19 @@ function ItemDetail({
   const [formRef, { createInputRef, getFormData }] = useFormRef();
   const onCancelHandler: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    onReset();
+    closeModal();
   };
   const onSubmitHandler: FormEventHandler<HTMLFormElement> = async (
     e,
   ) => {
     e.preventDefault();
-    const { canBuy, ...formData } = getFormData();
-    const updateData = {
-      itemId: id,
-      collectionId,
-      accessToken: authState.accessToken,
-      buyerId: canBuy ? authState.userId : null,
-      ...formData,
-    };
     try {
-      const res = await updateItem(updateData);
-      const data = await res.json();
-      if (res.status !== 200) {
-        throw data;
-      }
-      const { collection } = data;
-      afterEdit(collection, collection.items);
+      await editItem({
+        itemId: id,
+        ...getFormData(),
+      });
       toast.success('Update successfully');
     } catch (err) {
-      console.log(err);
       toast.error('Update failed');
     }
   };
@@ -69,17 +59,7 @@ function ItemDetail({
     HTMLButtonElement
   > = async (e) => {
     try {
-      const res = await deleteItem({
-        collectionId,
-        itemId: id,
-        accessToken: authState.accessToken,
-      });
-      const data = await res.json();
-      if (res.status !== 200) {
-        throw data;
-      }
-      const { collection } = data;
-      afterDelete(collection, collection.items);
+      await deleteItem({ itemId: id });
       toast.success('Deleted');
     } catch (err) {
       toast.error('Something went wrong');

@@ -1,5 +1,5 @@
 import { useAuthContext } from '@/features/auth/auth.context';
-import { getCollectionById } from '@/features/collection/collection.api';
+import { getCollectionByIdRequest } from '@/features/collection/collection.api';
 import { useSelectCollectionContext } from '@/features/collection/selectCollection.context';
 import {
   buyPriceReducer,
@@ -27,7 +27,7 @@ function SelectedCollectionDetails({
     (signal) => {
       if (selectId && isAuth()) {
         wrapper(
-          getCollectionById,
+          getCollectionByIdRequest,
           {
             signal,
             accessToken: authState.accessToken,

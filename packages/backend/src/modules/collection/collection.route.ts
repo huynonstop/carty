@@ -99,7 +99,7 @@ collectionRoute.patch(
   validTokenGuard,
   collectionOwnerGuard,
   updateCollectionPublicValidator,
-  CollectionController.updateCollection,
+  CollectionController.updateCollectionPublic,
 );
 collectionRoute.patch(
   '/:collectionId/tags',

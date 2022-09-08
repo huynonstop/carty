@@ -2,26 +2,17 @@ import CollectionTitleRow from '@/components/collection/CollectionTitleRow';
 import CollectionDetailSidebar from '@/components/collection/CollectionDetailSidebar';
 import CreateItemCard from '@/components/item/CreateItemCard';
 import ItemsView from '@/components/item/ItemsView';
-import { useAuthContext } from '@/features/auth/auth.context';
-import {
-  cloneCollection,
-  deleteCollection,
-  getCollectionById,
-  updateCollection,
-} from '@/features/collection/collection.api';
 import { WithClassName } from '@/utils/hoc/WithClassName';
-import { useFetch } from '@/utils/hooks/useFetch';
 import { useToggleModal } from '@/utils/hooks/useModal';
 import { contentContainerLg } from '@/utils/tailwind';
-import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
 import CreateItemModal from '@/components/item/CreateItemModal';
-import { useItemsContext } from '@/features/item/items.context';
 import ItemModal from '@/components/item/ItemModal';
 import MoreCollectionSidebar from '@/components/collection/MoreCollectionSidebar';
-import { toast } from 'react-toastify';
 import Spinner from '@/components/Spinner';
 import ShareModal from '@/components/share/ShareModal';
+import { useCollectionDetailPageData } from './useCollectionDetailPageData';
+import { toast } from 'react-toastify';
+
 function CollectionDetailPage() {
   const [
     isShowCreateItemModal,
@@ -30,28 +21,28 @@ function CollectionDetailPage() {
   ] = useToggleModal(false);
   const [isShowShareModal, closeShareModal, openShareModal] =
     useToggleModal(false);
-  const { authState, isAuth } = useAuthContext();
-  const [collection, wrapper, { setData, loading }] =
-    useFetch<any>(null);
-  const navigate = useNavigate();
-  const { collectionId } = useParams();
-  const { items, setItems } = useItemsContext();
-  const [isUser, setIsUser] = useState(false);
-  useEffect(() => {
-    if (isAuth())
-      wrapper(
-        getCollectionById,
-        {
-          accessToken: authState.accessToken,
-          collectionId,
-        },
-        (c) => c.collection,
-        (c) => {
-          setItems(c.collection.items);
-          setIsUser(c.isUser);
-        },
-      );
-  }, [collectionId]);
+
+  const {
+    collection,
+    items,
+    isUser,
+    loading,
+    authState,
+    collectionId,
+    navigate,
+    editCollection,
+    cloneThisCollection,
+    deleteCollection,
+    createItem,
+    editItem,
+    toggleItem,
+    deleteItem,
+  } = useCollectionDetailPageData();
+
+  if (!collectionId) {
+    navigate('/collections');
+    return <></>;
+  }
 
   if (!collection) {
     return <></>;
@@ -78,61 +69,7 @@ function CollectionDetailPage() {
     isPublic,
   } = collection;
   const isOwner = authState.userId === ownerId;
-  const onDeleteCollection = async () => {
-    try {
-      const res = await deleteCollection({
-        collectionId: id,
-        accessToken: authState.accessToken,
-      });
-      const data = await res.json();
-      if (res.status !== 200) {
-        throw data;
-      }
-      toast.success('Deleted collection');
-      navigate('/collections', { replace: true });
-    } catch (err) {
-      toast.error('Delete failed');
-    }
-  };
-  const editCollection =
-    (patch: 'name' | 'description' | 'isPublic' | 'tags') =>
-    async (data: any) => {
-      try {
-        const res = await updateCollection({
-          patch,
-          accessToken: authState.accessToken,
-          collectionId: id,
-          [patch]: data,
-        });
-        const resData = await res.json();
-        if (res.status !== 200) {
-          throw data;
-        }
-        setData(resData.updatedCollection);
-      } catch (err) {
-        throw err;
-      }
-    };
-  const cloneThisCollection = async () => {
-    if (!collectionId) return;
-    try {
-      const res = await cloneCollection({
-        collectionId,
-        accessToken: authState.accessToken,
-      });
-      const data = await res.json();
-      if (res.status !== 200) {
-        throw data;
-      }
-      navigate(`/collections/${data.clonedCollection.id}`);
-    } catch (err) {
-      toast.error('Clone fail');
-    }
-  };
-  const afterCreateItem = (collection: any, items: any[]) => {
-    setData(collection);
-    setItems(items);
-  };
+
   return (
     <div className="flex flex-col w-full">
       <CollectionTitleRow
@@ -160,6 +97,7 @@ function CollectionDetailPage() {
           items={items}
           editCollection={editCollection}
           isOwner={isOwner}
+          isUser={isUser}
         />
         <div className="flex flex-col flex-auto gap-4">
           <div className="flex items-center justify-between gap-2">
@@ -170,7 +108,7 @@ function CollectionDetailPage() {
               <CreateItemCard openCreateModal={openCreateItemModal} />
             )}
           </div>
-          <ItemsView setCollection={setData} isUser={isUser} />
+          <ItemsView toggleItem={toggleItem} isUser={isUser} />
         </div>
         <WithClassName
           className={['sm:basis-[15%] sm:max-w-[10rem]']}
@@ -179,31 +117,33 @@ function CollectionDetailPage() {
             ownerId={ownerId}
             isOwner={isOwner}
             className="flex flex-col gap-4"
-            onDelete={onDeleteCollection}
+            deleteCollection={deleteCollection}
           />
         </WithClassName>
       </WithClassName>
       {isUser && (
         <CreateItemModal
           isShow={isShowCreateItemModal}
-          onCloseModal={closeCreateItemModal}
-          afterCreateItem={afterCreateItem}
+          closeModal={closeCreateItemModal}
+          createItem={createItem}
         />
       )}
-      {isUser && <ItemModal setCollection={setData} />}
+      {isUser && (
+        <ItemModal editItem={editItem} deleteItem={deleteItem} />
+      )}
       {isOwner && (
         <ShareModal
           collectionId={id}
-          onSwitchPublic={async () => {
+          switchPublic={async () => {
             try {
               await editCollection('isPublic')(!isPublic);
             } catch (err) {
-              console.log(err);
+              toast.error('Switch status failed');
             }
           }}
           isPublic={isPublic}
           isShow={isShowShareModal}
-          onCloseModal={closeShareModal}
+          closeModal={closeShareModal}
         />
       )}
     </div>

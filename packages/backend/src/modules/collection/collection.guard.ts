@@ -24,7 +24,6 @@ export const collectionUserGuard: RequestHandler = asyncHandler(
       await CollectionService.checkUser({ collectionId, userId });
       return next();
     } catch (err) {
-      console.log(err);
       return next(new Forbidden('NOT_USER_COLLECTION'));
     }
   },

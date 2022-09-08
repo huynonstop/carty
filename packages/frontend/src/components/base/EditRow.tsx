@@ -31,7 +31,6 @@ function EditRowState({
           toast.success('Edited');
           setIsEditing(false);
         } catch (err) {
-          console.log(err);
           toast.error('Edit error');
         } finally {
           setIsLoading(false);

@@ -3,7 +3,7 @@ import MoreCollectionSidebar from '@/components/collection/MoreCollectionSidebar
 import UserNameEditor from '@/components/user/UserNameEditor';
 import NameEdit from '@/components/user/UserNameEditor';
 import { useAuthContext } from '@/features/auth/auth.context';
-import { getUserInfoById } from '@/features/user/user.api';
+import { getUserInfoByIdRequest } from '@/features/user/user.api';
 import classNames from '@/utils/classNames';
 import { flexColXYCenter, flexXYCenter } from '@/utils/tailwind';
 import { useEffect, useState } from 'react';
@@ -29,7 +29,7 @@ function UserPage() {
         return;
       }
       try {
-        const res = await getUserInfoById({
+        const res = await getUserInfoByIdRequest({
           accessToken: authState.accessToken,
           userId,
         });
@@ -82,11 +82,7 @@ function UserPage() {
             <div>Not found user info</div>
           )}
           {userId && (
-            <MoreCollectionSidebar
-              onDelete={async () => {}}
-              isOwner={false}
-              ownerId={userId}
-            />
+            <MoreCollectionSidebar isOwner={false} ownerId={userId} />
           )}
           {userInfo && userInfo.isUser && (
             <Button

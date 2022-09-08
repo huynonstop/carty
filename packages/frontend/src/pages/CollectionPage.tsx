@@ -4,7 +4,7 @@ import CollectionsView from '@/components/collection/CollectionsView';
 import CreateCollectionCard from '@/components/collection/CreateCollectionCard';
 import CreateCollectionModal from '@/components/collection/CreateCollectionModal';
 import { useAuthContext } from '@/features/auth/auth.context';
-import { getCollections } from '@/features/collection/collection.api';
+import { getCollectionsRequest } from '@/features/collection/collection.api';
 import { useFetch } from '@/utils/hooks/useFetch';
 import { useToggleModal } from '@/utils/hooks/useModal';
 import { useEffect } from 'react';
@@ -21,7 +21,7 @@ function CollectionPage() {
   >([]);
   const fetchCollections = () => {
     return wrapper(
-      getCollections,
+      getCollectionsRequest,
       {
         accessToken: authState.accessToken,
       },

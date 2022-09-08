@@ -1,5 +1,5 @@
 import { useAuthContext } from '@/features/auth/auth.context';
-import { createCollection } from '@/features/collection/collection.api';
+import { createCollectionRequest } from '@/features/collection/collection.api';
 import classNames from '@/utils/classNames';
 import { toast } from 'react-toastify';
 import Button from '../base/Button';
@@ -35,7 +35,7 @@ function CreateCollectionForm({
           accessToken: authState.accessToken,
         };
         try {
-          const res = await createCollection(formData);
+          const res = await createCollectionRequest(formData);
           const data = await res.json();
           if (res.status !== 200) {
             throw data;

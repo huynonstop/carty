@@ -1,4 +1,4 @@
-import { unshareCollection } from '@/features/share/share.api';
+import { unshareCollectionRequest } from '@/features/share/share.api';
 import Icon from '../base/Icon';
 
 interface ShareInfoProps {
