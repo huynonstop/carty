@@ -24,6 +24,7 @@
 
 ## 4. Product Features
 
+- Email/password authentication
 - Create/update/delete collections
 - Create/update/delete items
 - Invited another user to collections

@@ -22,6 +22,38 @@ export const collectionInclude: any = {
   },
 };
 
+export const collectionTextSearch = (key: string) => ({
+  OR: [
+    {
+      name: {
+        search: key,
+      },
+      description: {
+        search: key,
+      },
+    },
+    {
+      name: {
+        search: key,
+      },
+    },
+    {
+      description: {
+        search: key,
+      },
+    },
+    {
+      tags: {
+        some: {
+          label: {
+            search: key,
+          },
+        },
+      },
+    },
+  ],
+});
+
 export const searchCollectionByKeyWithoutPublicFilter = (
   userId: string,
   key?: string,
@@ -44,27 +76,7 @@ export const searchCollectionByKeyWithoutPublicFilter = (
   ];
 
   if (key) {
-    filter.push({
-      OR: [
-        {
-          name: {
-            search: key,
-          },
-          description: {
-            search: key,
-          },
-        },
-        {
-          tags: {
-            some: {
-              label: {
-                search: key,
-              },
-            },
-          },
-        },
-      ],
-    });
+    filter.push(collectionTextSearch(key));
   }
   return filter;
 };
@@ -77,27 +89,7 @@ export const searchCollectionByKeyFilter = (key?: string) => {
   ];
 
   if (key) {
-    filter.push({
-      OR: [
-        {
-          name: {
-            search: key,
-          },
-          description: {
-            search: key,
-          },
-        },
-        {
-          tags: {
-            some: {
-              label: {
-                search: key,
-              },
-            },
-          },
-        },
-      ],
-    });
+    filter.push(collectionTextSearch(key));
   }
   return filter;
 };

@@ -24,7 +24,12 @@ function ItemsView({
     return <ItemsEmpty />;
   }
   return (
-    <WithClassName className={[className, 'flex flex-col gap-4']}>
+    <WithClassName
+      className={[
+        className,
+        'grid grid-cols-1 auto-rows-[1fr] gap-4',
+      ]}
+    >
       {items.map((item) => {
         return (
           <ItemCard

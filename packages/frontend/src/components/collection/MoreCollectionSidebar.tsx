@@ -50,7 +50,7 @@ function MoreCollectionSidebar({
           <div className="whitespace-nowrap">
             <strong>More from this user</strong>
           </div>
-          <div className="flex flex-col gap-2">
+          <div className="grid grid-cols-1 auto-rows-[1fr] gap-2">
             {collections.map((collection: any) => {
               return (
                 <CollectionCard

@@ -126,7 +126,7 @@ function ShareModal({
           </Button>
         </form>
       </div>
-      <div className="grid grid-cols-1 flex-col gap-1 mt-3">
+      <div className="grid grid-cols-1 auto-rows-[1fr] flex-col gap-1 mt-3">
         {users.map(({ id, user }) => {
           return (
             <ShareInfo

@@ -54,6 +54,7 @@ model Collection {
   tags        Tag[]
 
   @@fulltext([name])
+  @@fulltext([description])
   @@fulltext([description, name])
 }
 

@@ -4,7 +4,6 @@ import { verifyToken, decodeToken } from '@/lib/jwt';
 import { Unauthorized } from '@/utils/customError';
 import { RequestHandler } from 'express';
 import { TokenExpiredError } from 'jsonwebtoken';
-import io from '@/lib/socket';
 
 export const tokenGuard: RequestHandler = (req, res, next) => {
   const authHeader = req.headers.authorization;

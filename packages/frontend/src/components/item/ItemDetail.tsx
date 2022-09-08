@@ -60,6 +60,7 @@ function ItemDetail({
   > = async (e) => {
     try {
       await deleteItem({ itemId: id });
+      closeModal();
       toast.success('Deleted');
     } catch (err) {
       toast.error('Something went wrong');

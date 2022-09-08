@@ -125,7 +125,7 @@ function Collections(
           >
             <CollectionCard
               isSelected={collection.id === selectId}
-              className="flex flex-col rounded-lg p-4 gap-1"
+              className="flex flex-col h-full rounded-lg p-4 gap-1"
               {...collection}
             />
           </CollectionItem>
