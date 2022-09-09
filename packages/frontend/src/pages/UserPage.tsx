@@ -1,11 +1,10 @@
 import Button from '@/components/base/Button';
 import MoreCollectionSidebar from '@/components/collection/MoreCollectionSidebar';
 import UserNameEditor from '@/components/user/UserNameEditor';
-import NameEdit from '@/components/user/UserNameEditor';
 import { useAuthContext } from '@/features/auth/auth.context';
 import { getUserInfoByIdRequest } from '@/features/user/user.api';
 import classNames from '@/utils/classNames';
-import { flexColXYCenter, flexXYCenter } from '@/utils/tailwind';
+import { flexXYCenter } from '@/utils/tailwind';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -56,6 +55,13 @@ function UserPage() {
       replace: true,
     });
   };
+
+  if (!userId) {
+    navigate(`/user/${authState.userId}`, {
+      replace: true,
+    });
+    return <></>;
+  }
   return (
     <>
       <div className="flex flex-col flex-auto gap-4 border-l index-max-w-screen-xl-sidebar-width ">
@@ -81,7 +87,7 @@ function UserPage() {
           ) : (
             <div>Not found user info</div>
           )}
-          {userId && (
+          {userInfo && !userInfo.isUser && (
             <MoreCollectionSidebar isOwner={false} ownerId={userId} />
           )}
           {userInfo && userInfo.isUser && (
@@ -104,8 +110,11 @@ function UserPage() {
               'flex flex-col flex-auto p-4 gap-4',
             ])}
           >
-            <Link to="/about">
-              <h3>More about Carty</h3>
+            <Link
+              to="/about"
+              className="hover:underline hover:text-blue-500"
+            >
+              <span>More about Carty</span>
             </Link>
           </div>
         )}
