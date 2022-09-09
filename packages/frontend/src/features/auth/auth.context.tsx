@@ -130,7 +130,7 @@ export const usePersistAuth = () => {
         const res = await renewTokenRequest({ accessToken });
         const data = await res.json();
         if (res.status !== 200) {
-          throw new Error('err status');
+          throw data;
         }
         dispatchLogin({ userId, ...data });
       } catch (err) {
