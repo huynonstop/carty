@@ -4,7 +4,9 @@ Simple app help you not forget what you're going to buy
 
 ## Demo
 
-Coming soon
+[FE netlify](https://huy-carty.netlify.app)
+
+[BE railway](https://carty-production.up.railway.app)
 
 ## Features
 
