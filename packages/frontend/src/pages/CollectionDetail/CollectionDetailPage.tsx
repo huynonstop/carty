@@ -39,6 +39,17 @@ function CollectionDetailPage() {
     deleteItem,
   } = useCollectionDetailPageData();
 
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <Spinner
+          spinnerClassName="reverse scale-[10]"
+          className="p-8"
+        />
+      </div>
+    );
+  }
+
   if (!collectionId) {
     navigate('/collections');
     return <></>;
@@ -47,16 +58,7 @@ function CollectionDetailPage() {
   if (!collection) {
     return <></>;
   }
-  if (loading) {
-    return (
-      <div>
-        <Spinner
-          spinnerClassName="reverse scale-[3]"
-          className="p-8"
-        />
-      </div>
-    );
-  }
+
   const {
     id,
     ownerId,
