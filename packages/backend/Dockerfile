@@ -4,7 +4,6 @@ RUN mkdir -p /app
 WORKDIR /app
 
 COPY package.json /app 
-COPY yarn.lock /app
 RUN yarn
 COPY . .
 RUN yarn build
@@ -23,4 +22,4 @@ COPY yarn.lock /app
 RUN yarn
 
 COPY --from=build /app/dist ./dist
-CMD ["yarn","start:prod"]
+CMD ["yarn","start:build"]
