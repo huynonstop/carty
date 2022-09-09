@@ -5,7 +5,7 @@
   "packageManager": "yarn@3.2.0",
   "scripts": {
     "ts-path": "ts-node -r tsconfig-paths/register",
-    "start": "pnpm ts-path ./src/index.ts",
+    "start": "ts-node -r tsconfig-paths/register ./src/index.ts",
     "start:build": "node -r ./tsconfig-paths-bootstrap.js ./dist/src/index.js",
     "dev": "nodemon -e ts --exec ts-node -r tsconfig-paths/register ./src/index.ts",
     "lint": "eslint . --ext .ts",
