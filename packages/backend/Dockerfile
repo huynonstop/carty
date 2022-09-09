@@ -19,6 +19,8 @@ WORKDIR /app
 
 COPY package.json /app 
 RUN yarn
+RUN npx prisma migrate deploy
 
 COPY --from=build /app/dist ./dist
+EXPOSE ${PORT}
 CMD ["yarn","start:build"]
