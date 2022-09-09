@@ -45,7 +45,7 @@ function MoreCollectionSidebar({
           Delete this collection
         </Button>
       )}
-      {collections.length && (
+      {collections.length !== 0 && (
         <div className="flex flex-col gap-1 text-sm">
           <div className="whitespace-nowrap">
             <strong>More from this user</strong>
